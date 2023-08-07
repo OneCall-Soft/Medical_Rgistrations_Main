@@ -17,6 +17,7 @@
                 <option value="about">About</option>
                 <option value="contact">Contact</option>
                 <option value="course">Course</option>
+                <option value="home">Home</option>
 
                 @*@if (Model is not null)
                 @if (Model.PagesGroup.Any())
@@ -97,6 +98,31 @@
                     <div class="col-lg-12 card-form__body">
                         <div class="table-responsive ">
                             <table class="table mb-0 thead-border-top-0 mt-2" id="taboutList">
+                                <thead>
+                                    <tr>
+                                        <th class="d-none">Active</th>
+                                        <th style="width: 150px;">Template</th>
+                                        <th style="width: 24px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="d-none " id="dhomeList">
+    <div class="row mt-5">
+        <div class="col-md-12 ">
+            <div class="card card-form">
+                <div class="row no-gutters">
+                    <div class="col-lg-12 card-form__body">
+                        <div class="table-responsive ">
+                            <table class="table mb-0 thead-border-top-0 mt-2" id="thomeList">
                                 <thead>
                                     <tr>
                                         <th class="d-none">Active</th>
@@ -356,17 +382,26 @@
                 case 'about': $("#daboutList").removeClass("d-none");
                     $("#dcontactList").addClass("d-none");
                     $("#dcoursetList").addClass("d-none");
+                    $("#dhomeList").addClass("d-none");
                     $('#taboutList').append(tr);
                     break;
                 case 'contact': $("#dcontactList").removeClass("d-none");
                     $("#daboutList").addClass("d-none");
                     $("#dcoursetList").addClass("d-none");
+                    $("#dhomeList").addClass("d-none");
                     $('#tcontactList').append(tr);
                     break;
                 case 'course': $("#dcoursetList").removeClass("d-none");
                     $("#daboutList").addClass("d-none");
+                    $("#dhomeList").addClass("d-none");
                     $("#dcontactList").addClass("d-none");
                     $('#tcourseList').append(tr);
+                    break;
+                case 'home': $("#dhomeList").removeClass("d-none");
+                    $("#daboutList").addClass("d-none");
+                    $("#dcoursetList").addClass("d-none");
+                    $("#dcontactList").addClass("d-none");
+                    $('#thomeList').append(tr);
                     break;
                 default:
                     break;
@@ -388,6 +423,7 @@
 
                     $('#taboutList').find("tbody tr").remove();
                     $('#tcourseList').find("tbody tr").remove();
+                    $('#thomeList').find("tbody tr").remove();
                     $('#tcontactList').find("tbody tr").remove();
 
                     $.each(res, function (index, value) {

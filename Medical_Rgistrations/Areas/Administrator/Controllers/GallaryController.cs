@@ -60,14 +60,13 @@ namespace Medical_Rgistrations.Controllers
                     }
                 }
 
-
-
                 var galaryToBeUploaded = new Gallary
                 {
                     fileName = imageNames,
                     groupName = gallary.groupName,
-                    groupId = Guid.NewGuid(),
+                    //groupId = Guid.NewGuid(),
                     id = Guid.NewGuid(),
+                    active = gallary.active,
                 };
 
                 RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);

@@ -27,11 +27,21 @@
                     <span class="text-danger" asp-validation-for="groupName"></span>
                 </div>
             </div>
+            
             <div class="col-md-12">
                 <div class="mb-3">
                     <label asp-for="imageFiles" class="form-label"></label>
                     <input class="form-control" accept=".jpg,.png,.jpeg" asp-for="imageFiles">
                     <span class="text-danger" asp-validation-for="imageFiles"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="checkbox-inline pl-3">
+                    <div class="form-check ">
+                        <label class="checkbox-inline">
+                            <input class="form-check-input" type="checkbox" asp-for="active"> Active
+                        </label>
+                    </div>
                 </div>
             </div>
             <div class="col-md-12">
