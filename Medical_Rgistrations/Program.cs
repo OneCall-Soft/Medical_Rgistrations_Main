@@ -61,8 +61,6 @@ app.UseMvc((o) =>
 {
     o.MapRoute(
         name: "areaRoute",
-        // if you don't have such an area named as `areaName` already, 
-        //    don't make the part of `{area}` optional by `{area:exists}`
         template: "{area:exists}/{controller=Home}/{action=Index}");
     o.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
     
