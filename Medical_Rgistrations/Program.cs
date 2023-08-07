@@ -57,53 +57,19 @@ app.UseRouting();
 
 app.MapRazorPages();
 app.UseSession();
-//app.UseMvc((o) =>
-//{
-//    o.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
-//});
-//app.UseMvc();
-//app.MapDefaultControllerRoute();
-
-app.UseMvc(routes =>
+app.UseMvc((o) =>
 {
-    routes.MapRoute(
+    o.MapRoute(
         name: "areaRoute",
         // if you don't have such an area named as `areaName` already, 
         //    don't make the part of `{area}` optional by `{area:exists}`
         template: "{area:exists}/{controller=Home}/{action=Index}");
+    o.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
+    
 
-    routes.MapRoute(
-        name: "default",
-        template: "{controller=Home}/{action=Index}/{id?}");
 });
-//app.MapControllerRoute(
-//    name: "MyArea",
-//    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
-
-//app.MapControllerRoute(
-//    name: "default",
-//    pattern: "{controller=Home}/{action=Index}/{id?}");
-
-//app.UseEndpoints(endpoints =>
-//{
-
-//    endpoints.MapAreaControllerRoute(
-//        name: "Defaultroute",
-//        areaName: "Admin",
-//        pattern: "Admin/{controller=Home}/{action=Index}"
-//    );
-
-//    endpoints.MapControllerRoute(
-//        name: "admin",
-//        pattern: "{area:exists}/{controller}/{action}"
-//    );
-
-//    endpoints.MapControllerRoute(
-//        name: "default",
-//        pattern: "{controller=Home}/{action=Index}/{id?}"
-//    );
-
-//});
+//app.UseMvc();
+app.MapDefaultControllerRoute();
 
 
 app.Run();

@@ -14,55 +14,60 @@
 <div class="container-fluid bg-primary py-5 hero-header mb-5">
     <div class="row py-3">
         <div class="col-12 text-center">
-            <h1 class="display-3 text-white animated zoomIn">Facluty</h1>
-            <a href="#" class="h4 text-white">Home</a>
+            <h1 class="display-3 text-white animated zoomIn">Our Team</h1>
+            <a asp-action="Index" asp-controller="Home" class="h4 text-white">Home</a>
             <i class="far fa-circle text-white px-2"></i>
-            <a href="#" class="h4 text-white">Facluty</a>
+            <a href="#" class="h4 text-white">Our Team</a>
         </div>
     </div>
 </div>
 
-
-
+@*<div class="float-end">
+    <select name="OurTeam" id="ourTeam">
+        <option value="UKfaculty">UK faculty</option>
+        <option value="SMSteam">SMS team</option>
+    </select>
+</div>
+*@
 <div class="container-fluid py-5 wow fadeInUp" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
     <div class="container">
         <div class="row g-5 mb-5">
-
-            @foreach (var item in Model)
-            {
-                if (item.Active == true)
+            @if (Model.Any())
+                @foreach (var item in Model)
                 {
+                    if (item.Active == true)
+                    {
 
-                    string? image = @profileImages + item.ProfileName ?? defaultImage;
+                        string? image = @profileImages + item.ProfileName ?? defaultImage;
 
-                     //var doesExist = File.Exists(@profileImages + item.ProfileName);
+                        //var doesExist = File.Exists(@profileImages + item.ProfileName);
 
-                   // if (!doesExist)
-                      // image = @profileImages + defaultImage;
+                        // if (!doesExist)
+                        // image = @profileImages + defaultImage;
 
-                    <div class="col-md-3 col-6">
-                        <div class="fcltydiv">
-                            <div class="team-item bg-light">
-                                <div class="position-relative rounded-top" style="z-index: 1;">
-                                    <div class="dcpic">
-                                        <img class="img-fluid rounded-top w-100" src="@image" alt="">
+                        <div class="col-md-3 col-6">
+                            <div class="fcltydiv">
+                                <div class="team-item bg-light">
+                                    <div class="position-relative rounded-top" style="z-index: 1;">
+                                        <div class="dcpic">
+                                            <img class="img-fluid rounded-top w-100" src="@image" alt="">
+                                        </div>
                                     </div>
-                                </div>
-                                <div class="team-text position-relative text-center rounded-bottom p-3">
-                                    <h4 class="mb-2">@item.Name</h4>
-                                    <p class="text-primary mb-0">@item.Description</p>
-                                    <div class="divpsor">
-                                        <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-twitter fw-normal"></i></a>
-                                        <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
-                                        <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
-                                        <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-instagram fw-normal"></i></a>
+                                    <div class="team-text position-relative text-center rounded-bottom p-3">
+                                        <h4 class="mb-2">@item.Name</h4>
+                                        <p class="text-primary mb-0">@item.Description</p>
+                                        <div class="divpsor">
+                                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-twitter fw-normal"></i></a>
+                                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-facebook-f fw-normal"></i></a>
+                                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-linkedin-in fw-normal"></i></a>
+                                            <a class="btn btn-primary btn-square m-1" href="#"><i class="fab fa-instagram fw-normal"></i></a>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    }
                 }
-            }   
 
         </div>
     </div>

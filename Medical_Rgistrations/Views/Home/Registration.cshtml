@@ -6,148 +6,172 @@
 
 
 <form asp-action="Registration" asp-controller="Home" method="post" enctype="multipart/form-data" autocomplete="on">
-    <div class="card align-content-center p-3 m-5">
-        <div class="text-center h2">Application Form</div>
-        <div class="row p-5  ">
-            <div class="col-md-12">
-                <div class="mb-3">
-                    <label asp-for="Name" class="form-label"></label>
-                    <input class="form-control" asp-for="Name">
-                    <span class="text-danger" asp-validation-for="Name"></span>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="mb-3">
-                    <label asp-for="Address" class="form-label"></label>
-                    <textarea class="form-control" style="resize:none" asp-for="Address"></textarea>
-                    <span class="text-danger" asp-validation-for="Address"></span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="mb-3">
-                    <label asp-for="Pincode" class="form-label"></label>
-                    <input class="form-control" asp-for="Pincode">
-                    <span class="text-danger" asp-validation-for="Pincode"></span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="mb-3">
-                    <label asp-for="Mobile" class="form-label"></label>
-                    <input class="form-control" asp-for="Mobile" />
-                    <span class="text-danger" asp-validation-for="Mobile"></span>
-                </div>
-            </div>
-            <div class="col-md-12">
-                <div class="mb-3">
-                    <label asp-for="Email" class="form-label"></label>
-                    <input class="form-control" asp-for="Email" />
-                    <span class="text-danger" asp-validation-for="Email"></span>
-                </div>
-            </div>
-            <div class="col-md-2">
-                <div class="mb-3">
-                    Gender
-                </div>
-            </div>
-            <div class="col-md-10">
-                <div class="mb-3 ">
-                    @if (Model.GenderList.Any())
-                    {
-                        for (int i = 0; i < Model.GenderList.Count; i++)
-                        {
-                            <span class="m-1">
-                                <input class="" type="radio" asp-for="GenderId" value="@Model.GenderList[i].Id">
-                                <label class="text-uppercase" asp-for="@Model.GenderList[i].Id">@Model.GenderList[i].Value</label>
-                            </span>
-                        }
-                    }
-                </div>
-                <span class="text-danger d-block m-2" class="text-danger" asp-validation-for="GenderId"></span>
-            </div>
-            <div class="col-md-6">
-                <div class="mb-3">
-                    <label asp-for="DOB" class="form-label"></label>
-                    <input class="form-control" asp-for="DOB">
-                    <span class="text-danger" asp-validation-for="DOB"></span>
-                </div>
-            </div>
-            <div class="col-md-6">
-                <div class="mb-3">
-                    <label asp-for="Nationality" class="form-label"></label>
-                    <input class="form-control" asp-for="Nationality">
-                    <span class="text-danger" asp-validation-for="Nationality"></span>
-                </div>
-            </div>
-            <div class="col-md-4">
-                <div class="mb-3">
-                    <label asp-for="QualificationId" class="form-label"></label>
-                    <select class="form-control" asp-for="QualificationId">
-                        <option value="">Select qualification</option>
-                        @if (Model.QualificationList.Any())
-                        {
-                            foreach (var item in Model.QualificationList)
-                            {
-                                <option value="@item.Id">@item.Value</option>
-                            }
-                        }
-                    </select>
-                    <span class="text-danger" asp-validation-for="QualificationId"></span>
-                </div>
-            </div>
 
-            <div class="col-md-5">
-                <div class="mb-3">
-                    <label asp-for="InstituteName" class="form-label"></label>
-                    <input class="form-control" asp-for="InstituteName">
-                    <span class="text-danger" asp-validation-for="InstituteName"></span>
-                </div>
-            </div>
 
-            <div class="col-md-3">
-                <div class="mb-3">
-                    <label asp-for="Year" class="form-label"></label>
-                    <select class="form-control" asp-for="Year">
-                        <option value="">Select year</option>
-                        @if (Model.allYears.Any())
-                        {
-                            foreach (var item in Model.allYears)
-                            {
-                                <option value="@item">@item</option>
-                            }
-                        }
-                    </select>
-                    <span class="text-danger" asp-validation-for="Year"></span>
-                </div>
+    <div class="container-fluid bg-primary py-5 hero-header mb-5">
+        <div class="row py-3">
+            <div class="col-12 text-center">
+                <h1 class="display-3 text-white animated zoomIn">Registration</h1>
+                <a  asp-controller="Home" asp-action="Index" class="h4 text-white">Home</a>
+                <i class="far fa-circle text-white px-2"></i>
+                <a href="#" class="h4 text-white">
+                    New Application
+                </a>
             </div>
+        </div>
+    </div>
 
-            <div class="col-md-6">
-                <div class="mb-3">
-                    <label asp-for="CompletePart" class="form-label"></label>
-                    <input class="form-control" asp-for="CompletePart">
-                    <span class="text-danger" asp-validation-for="CompletePart"></span>
-                </div>
-            </div>
 
-            <div class="col-md-6">
-                <div class="mb-3">
-                    <label asp-for="RCPCode" class="form-label"></label>
-                    <input class="form-control" asp-for="RCPCode">
-                    <span class="text-danger" asp-validation-for="RCPCode"></span>
-                </div>
-            </div>
 
-            <div class="col-md-12">
-                <div class="mb-3">
-                    <div class="form-check">
-                        <input class="form-check-input" type="checkbox" asp-for="ReadTermsCondition">
-                        <label class="form-check-label" asp-for="ReadTermsCondition"></label>
-                        <span class="text-danger" asp-validation-for="ReadTermsCondition"></span>
+    <div class="container-fluid wow fadeInUp" data-wow-delay="0.1s" style="visibility: visible; animation-delay: 0.1s; animation-name: fadeInUp;">
+        <div class="container">
+            <div class="card align-content-center border-0">
+                @*<div class="text-center h2">Application Form</div>*@
+                <div class="row p-5  w-75 p-auto m-auto">
+                    <div class="col-12">
+                        <div class="mb-2">
+                            <label asp-for="Name" class="form-label h6"></label>
+                            <input class="form-control border-0 bg-light px-4" style="height: 55px;" asp-for="Name">
+                            <span class="text-danger" asp-validation-for="Name"></span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="mb-2 ">
+                            <label asp-for="Address" class="form-label h6"></label>
+                            <textarea class="form-control border-0 bg-light px-4 " style="resize:none;height: 55px;" asp-for="Address"></textarea>
+                            <span class="text-danger" asp-validation-for="Address"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mb-2">
+                            <label asp-for="Pincode" class="form-label h6"></label>
+                            <input class="form-control border-0 bg-light px-4" style="height: 55px;" asp-for="Pincode">
+                            <span class="text-danger" asp-validation-for="Pincode"></span>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mb-2">
+                            <label asp-for="Mobile" class="form-label h6"></label>
+                            <input class="form-control border-0 bg-light px-4" style="height: 55px;" asp-for="Mobile" />
+                            <span class="text-danger" asp-validation-for="Mobile"></span>
+                        </div>
+                    </div>
+                    <div class="col-12">
+                        <div class="m-2">
+                            <label asp-for="Email" class="form-label h6"></label>
+                            <input class="form-control border-0 bg-light px-4" style="height: 55px;" asp-for="Email" />
+                            <span class="text-danger" asp-validation-for="Email"></span>
+                        </div>
+                    </div>
+                    <div class="col-2">
+                        <div class="m-2">
+                            Gender
+                        </div>
+                    </div>
+                    <div class="col-10">
+                        <div class="m-2 ">
+                            @if (Model != null)
+                                @if (Model.GenderList.Any())
+                                {
+                                    for (int i = 0; i < Model.GenderList.Count; i++)
+                                    {
+
+                                        <input class="form-check-input ml-2" type="radio" asp-for="GenderId" value="@Model.GenderList[i].Id">
+                                        <span class="m-2">@Model.GenderList[i].Value.ToUpper()</span>
+                                        @*<label class="text-uppercase" asp-for="GenderId">@Model.GenderList[i].Value</label>*@
+                                    }
+                                }
+                        </div>
+                        <span class="text-danger d-block m-2" class="text-danger" asp-validation-for="GenderId"></span>
+                    </div>
+                    <div class="col-6">
+                        <div class="mb-2">
+                            <label asp-for="DOB" class="form-label h6"></label>
+                            <input class="form-control border-0 bg-light px-4" style="height: 55px;" asp-for="DOB">
+                            <span class="text-danger" asp-validation-for="DOB"></span>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="mb-2">
+                            <label asp-for="Nationality" class="form-label h6"></label>
+                            <input class="form-control border-0 bg-light px-4" style="height: 55px;" asp-for="Nationality">
+                            <span class="text-danger" asp-validation-for="Nationality"></span>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <div class="mb-2">
+                            <label asp-for="QualificationId" class="form-label h6"></label>
+                            <select class="form-control border-0 bg-light px-4" style="height: 55px;" asp-for="QualificationId">
+                                <option value="">Select qualification</option>
+
+                                @if (Model != null)
+                                    @if (Model.QualificationList.Any())
+                                    {
+                                        foreach (var item in Model.QualificationList)
+                                        {
+                                            <option value="@item.Id">@item.Value</option>
+                                        }
+                                    }
+                            </select>
+                            <span class="text-danger" asp-validation-for="QualificationId"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-5">
+                        <div class="mb-2">
+                            <label asp-for="InstituteName" class="form-label"></label>
+                            <input class="form-control border-0 bg-light px-4" style="height: 55px;" asp-for="InstituteName">
+                            <span class="text-danger" asp-validation-for="InstituteName"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-3">
+                        <div class="mb-2">
+                            <label asp-for="Year" class="form-label"></label>
+                            <select class="form-control border-0 bg-light px-4" style="height: 55px;" asp-for="Year">
+                                <option value="">Select year</option>
+                                @if (Model.allYears.Any())
+                                {
+                                    foreach (var item in Model.allYears)
+                                    {
+                                        <option value="@item">@item</option>
+                                    }
+                                }
+                            </select>
+                            <span class="text-danger" asp-validation-for="Year"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="mb-2">
+                            <label asp-for="CompletePart" class="form-label h6"></label>
+                            <input class="form-control border-0 bg-light px-4" style="height: 55px;" asp-for="CompletePart">
+                            <span class="text-danger" asp-validation-for="CompletePart"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-6">
+                        <div class="mb-2">
+                            <label asp-for="RCPCode" class="form-label h6"></label>
+                            <input class="form-control border-0 bg-light px-4" style="height: 55px;" asp-for="RCPCode">
+                            <span class="text-danger" asp-validation-for="RCPCode"></span>
+                        </div>
+                    </div>
+
+                    <div class="col-12">
+                        <div class="mt-3 mb-3">
+                            <div class="form-check">
+                                <input class="form-check-input" type="checkbox" asp-for="ReadTermsCondition">
+                                <label class="form-check-label h6" asp-for="ReadTermsCondition"></label>
+                                <span class="text-danger" asp-validation-for="ReadTermsCondition"></span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="m-3">
+                        <button type="submit" id="btnRegister" class="btn btn-primary py-3 float-end">Register</button>
                     </div>
                 </div>
-            </div>
-
-            <div class="mb-3">
-                <button type="submit" id="btnRegister" class="btn  btn-md btn-outline-primary float-end">Register</button>
             </div>
         </div>
     </div>
@@ -228,7 +252,7 @@
 </button>*@
 
 <!-- Modal -->
-@*<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
     <div class="modal-dialog">
         <div class="modal-content">
             <div class="modal-header">
@@ -239,8 +263,8 @@
                 <p>•  Places will be allocated on a first come first serve basis as seats are limited.</p>
                 <p>•  Registration continues till all seats are filled.</p>
                 <p>•  Full payment is to be made at the time of registration and fee will be returned if you do not get a place on the course.</p>
-                <p>•  Written cancellations received before 1st September will be given a refund after 20% reduction towards service charges.</p>
-                <p>•  Cancellations after 1st September attract no refund.</p>
+                <p>•  Written cancellations received before 1st September(example date ) will be given a refund after 20% reduction towards service charges.</p>
+                <p>•  Cancellations after ------------- attract no refund.</p>
                 <p>•  It is not possible to channel the paid fees for the next course as the fee structure may change.</p>
                 <p>•  In exceptional circumstances, it may be necessary to cancel the course at short notice and full refund of the course fee would be made to the candidates.</p>
             </div>
@@ -249,7 +273,7 @@
             </div>
         </div>
     </div>
-</div>*@
+</div>
 <button type="button"
         class="btn btn-info"
         data-toggle="modal"
@@ -257,7 +281,7 @@
     Large Modal
 </button>
 
-<div id="modal-large" class="modal fade" tabindex="-1" aria-labelledby="modal-large-title" style="display: none;" data-bs-backdrop="static" data-bs-keyboard="false"  aria-hidden="true">
+@*<div id="modal-large" class="modal fade" tabindex="-1" aria-labelledby="modal-large-title" style="display: none;" data-bs-backdrop="static" data-bs-keyboard="false" aria-hidden="true">
     <div class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -279,4 +303,4 @@
         </div> <!-- // END .modal-content -->
     </div> <!-- // END .modal-dialog -->
 
-</div>
+</div>*@

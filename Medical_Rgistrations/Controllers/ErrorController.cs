@@ -9,6 +9,7 @@ namespace Medical_Rgistrations.Controllers
 
     namespace EmptyNetCore.Controllers
     {
+        [Area("Administrator")]
         public class ErrorController : BasePageController
         {
             [Route("Error/{statusCode}")]

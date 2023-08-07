@@ -10,7 +10,9 @@
     <Compile Remove="Areas\Administrator\Views\AboutTemplate\**" />
     <Compile Remove="Areas\Administrator\Views\ContactTemplate\**" />
     <Compile Remove="Areas\Administrator\Views\CourseTemplate\**" />
+    <Compile Remove="Areas\Administrator\Views\Home\**" />
     <Compile Remove="Areas\Administrator\Views\Shared\**" />
+    <Compile Remove="Areas\User\**" />
     <Compile Remove="Controllers\**" />
     <Compile Remove="files\**" />
     <Compile Remove="Views\AboutTemplate\**" />
@@ -23,7 +25,9 @@
     <Content Remove="Areas\Administrator\Views\AboutTemplate\**" />
     <Content Remove="Areas\Administrator\Views\ContactTemplate\**" />
     <Content Remove="Areas\Administrator\Views\CourseTemplate\**" />
+    <Content Remove="Areas\Administrator\Views\Home\**" />
     <Content Remove="Areas\Administrator\Views\Shared\**" />
+    <Content Remove="Areas\User\**" />
     <Content Remove="Controllers\**" />
     <Content Remove="files\**" />
     <Content Remove="Views\AboutTemplate\**" />
@@ -36,7 +40,9 @@
     <EmbeddedResource Remove="Areas\Administrator\Views\AboutTemplate\**" />
     <EmbeddedResource Remove="Areas\Administrator\Views\ContactTemplate\**" />
     <EmbeddedResource Remove="Areas\Administrator\Views\CourseTemplate\**" />
+    <EmbeddedResource Remove="Areas\Administrator\Views\Home\**" />
     <EmbeddedResource Remove="Areas\Administrator\Views\Shared\**" />
+    <EmbeddedResource Remove="Areas\User\**" />
     <EmbeddedResource Remove="Controllers\**" />
     <EmbeddedResource Remove="files\**" />
     <EmbeddedResource Remove="Views\AboutTemplate\**" />
@@ -49,7 +55,9 @@
     <None Remove="Areas\Administrator\Views\AboutTemplate\**" />
     <None Remove="Areas\Administrator\Views\ContactTemplate\**" />
     <None Remove="Areas\Administrator\Views\CourseTemplate\**" />
+    <None Remove="Areas\Administrator\Views\Home\**" />
     <None Remove="Areas\Administrator\Views\Shared\**" />
+    <None Remove="Areas\User\**" />
     <None Remove="Controllers\**" />
     <None Remove="files\**" />
     <None Remove="Views\AboutTemplate\**" />
@@ -63,14 +71,48 @@
 
   <ItemGroup>
     <Content Remove="Areas\Administrator\Views\Admin\GalaryMaster.cshtml" />
-    <Content Remove="Areas\User\Views\Shared\_AdminLayout.cshtml" />
     <Content Remove="Views\Shared\_Layout1.cshtml" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Areas\User\Views\Shared\_AdminLayout.cshtml.css" />
     <None Remove="Views\Shared\_AdminLayout.cshtml.css" />
     <None Remove="Views\Shared\_Layout1.cshtml.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="Controllers\ErrorController.cs" />
+    <Compile Include="Controllers\HomeController.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Views\Home\AboutUs.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Home\ContactUs.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Home\Course.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Home\Dashboard.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Home\Faculty.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Home\Index.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
+    <Content Include="Views\Home\Registration.cshtml">
+      <ExcludeFromSingleFile>true</ExcludeFromSingleFile>
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </Content>
   </ItemGroup>
 
   <ItemGroup>

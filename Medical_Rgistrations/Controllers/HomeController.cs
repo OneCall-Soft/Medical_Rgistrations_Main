@@ -15,7 +15,7 @@ using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Medical_Rgistrations.Controllers
 {
-    [Area("Admin")]
+    //[Area("User")]
     public class HomeController : BasePageController
     {
 
@@ -42,25 +42,32 @@ namespace Medical_Rgistrations.Controllers
         {
 
             var model = new Registrations();
-            RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
-
-            restsharpClient.SetBasicAuthenticator(api_username, api_password);
-
-            var restClient = await restsharpClient.GetClientInstance("/Registration/GetById/" + id);
-
-            var response = await restClient.PostAsync(restsharpClient._request);
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var apiresponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
+                RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
 
-                if (apiresponse != null && apiresponse.Success)
+                restsharpClient.SetBasicAuthenticator(api_username, api_password);
+
+                var restClient = await restsharpClient.GetClientInstance("/Registration/GetById/" + id);
+
+                var response = await restClient.PostAsync(restsharpClient._request);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    model = JsonConvert.DeserializeObject<Registrations>(apiresponse.Data);
+                    var apiresponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
+
+                    if (apiresponse != null && apiresponse.Success)
+                    {
+                        model = JsonConvert.DeserializeObject<Registrations>(apiresponse.Data);
+                        ViewData["reference"] = model.RferenceNbr;
+                    }
                 }
             }
+            catch (Exception)
+            {
 
-            ViewData["reference"] = model.RferenceNbr;
+                throw;
+            }
 
             return View(model);
         }
@@ -73,7 +80,6 @@ namespace Medical_Rgistrations.Controllers
                 await Contractions(model);
                 await Qualifications(model);
                 model.allYears = AllYears();
-
 
             }
             catch (Exception e)
@@ -153,24 +159,32 @@ namespace Medical_Rgistrations.Controllers
         {
             MyHtmlContent model = new MyHtmlContent();
 
-            RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
-
-            restsharpClient.SetBasicAuthenticator(api_username, api_password);
-
-            var restClient = await restsharpClient.GetClientInstance("/Template/GetContactActiveTemplate");
-
-            var response = await restClient.GetAsync(restsharpClient._request);
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                var Apiresponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
-                if (Apiresponse != null && Apiresponse.Success)
+                RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
+
+                restsharpClient.SetBasicAuthenticator(api_username, api_password);
+
+                var restClient = await restsharpClient.GetClientInstance("/Template/GetActiveTemplate?pageName=contact");
+
+                var response = await restClient.PostAsync(restsharpClient._request);
+
+                if (response.IsSuccessStatusCode)
                 {
-                    model = JsonConvert.DeserializeObject<MyHtmlContent>(Apiresponse.Data);
-                    return View(model);
+                    var Apiresponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
+                    if (Apiresponse != null && Apiresponse.Success)
+                    {
+                        model = JsonConvert.DeserializeObject<MyHtmlContent>(Apiresponse.Data);
+                        return View(model);
+                    }
                 }
             }
-            return View();
+            catch (Exception)
+            {
+
+                throw;
+            }
+            return View(model);
         }
 
 
@@ -179,47 +193,55 @@ namespace Medical_Rgistrations.Controllers
             MyHtmlContent model = new MyHtmlContent();
             apiResponse = new ApiResponse();
 
-            RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
-
-            restsharpClient.SetBasicAuthenticator(api_username, api_password);
-
-            var restClient = await restsharpClient.GetClientInstance("/Template/GetCourseActiveTemplate");
-
-            var response = await restClient.GetAsync(restsharpClient._request);
-
-            if (response.IsSuccessStatusCode)
+            try
             {
-                apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
-                if (apiResponse != null && apiResponse.Success)
+                RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
+
+                restsharpClient.SetBasicAuthenticator(api_username, api_password);
+
+                var restClient = await restsharpClient.GetClientInstance("/Template/GetActiveTemplate?pageName=course");
+
+                var response = await restClient.PostAsync(restsharpClient._request);
+
+                if (response.IsSuccessStatusCode)
                 {
-
-                    model = JsonConvert.DeserializeObject<MyHtmlContent>(apiResponse.Data);
-
-                    restsharpClient = new RestsharpClient(apiBaseUrl);
-
-
-                    restsharpClient.SetBasicAuthenticator(api_username, api_password);
-
-                    restClient = await restsharpClient.GetClientInstance("/Gallary/GetImagesByGroup/" + model.GallaryGroup);
-
-                    response = await restClient.PostAsync(restsharpClient._request);
-
-                    if (response.IsSuccessStatusCode)
+                    apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
+                    if (apiResponse != null && apiResponse.Success)
                     {
-                        apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
 
-                        if (apiResponse.Success)
+                        model = JsonConvert.DeserializeObject<MyHtmlContent>(apiResponse.Data);
+
+                        restsharpClient = new RestsharpClient(apiBaseUrl);
+
+
+                        restsharpClient.SetBasicAuthenticator(api_username, api_password);
+
+                        restClient = await restsharpClient.GetClientInstance("/Gallary/GetImagesByGroup/" + model.GallaryGroup);
+
+                        response = await restClient.PostAsync(restsharpClient._request);
+
+                        if (response.IsSuccessStatusCode)
                         {
-                            var gallary = JsonConvert.DeserializeObject<Gallary>(apiResponse.Data);
-                            model.imgages = gallary;
+                            apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
+
+                            if (apiResponse.Success)
+                            {
+                                var gallary = JsonConvert.DeserializeObject<Gallary>(apiResponse.Data);
+                                model.imgages = gallary;
+                            }
+
                         }
 
+                        return View(model);
                     }
-
-                    return View(model);
                 }
             }
-            return View();
+            catch (Exception)
+            {
+                throw;
+            }
+           
+            return View(model);
         }
 
 
@@ -251,10 +273,10 @@ namespace Medical_Rgistrations.Controllers
             }
             catch (Exception e)
             {
-
+                throw;
             }
 
-            return View();
+            return View(model);
         }
 
 
@@ -268,19 +290,19 @@ namespace Medical_Rgistrations.Controllers
 
                 restsharpClient.SetBasicAuthenticator(api_username, api_password);
 
-                var restClient = await restsharpClient.GetClientInstance("/Template/GetAboutActiveTemplate");
+                var restClient = await restsharpClient.GetClientInstance("/Template/GetActiveTemplate?pageName=about");
 
-                var response = await restClient.GetAsync(restsharpClient._request);
+                var response = await restClient.PostAsync(restsharpClient._request);
 
                 if (response.IsSuccessStatusCode)
                 {
-                    var apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
+                    apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
 
-                    var Apiresponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
-                    if (Apiresponse != null && Apiresponse.Success)
+
+                    if (apiResponse != null && apiResponse.Success)
                     {
 
-                        model = JsonConvert.DeserializeObject<MyHtmlContent>(Apiresponse.Data);
+                        model = JsonConvert.DeserializeObject<MyHtmlContent>(apiResponse.Data);
 
                         restsharpClient = new RestsharpClient(apiBaseUrl);
 
@@ -324,26 +346,32 @@ namespace Medical_Rgistrations.Controllers
         {
 
             RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
-
-
-            restsharpClient.SetBasicAuthenticator(api_username, api_password);
-
-            var restClient = await restsharpClient.GetClientInstance("/Qualifications/GetGenders");
-            var resp = await restClient.GetAsync(restsharpClient._request);
-
-            //var response = await client.GetAsync(base.apiBaseUrl + "/Contraction/GetAllContraction");
-
-            if (resp.IsSuccessStatusCode)
+            try
             {
-                var res = JsonConvert.DeserializeObject<ApiResponse>(resp.Content);
+                restsharpClient.SetBasicAuthenticator(api_username, api_password);
 
+                var restClient = await restsharpClient.GetClientInstance("/Qualifications/GetGenders");
+                var resp = await restClient.GetAsync(restsharpClient._request);
 
-                if (res.Success)
+                //var response = await client.GetAsync(base.apiBaseUrl + "/Contraction/GetAllContraction");
+
+                if (resp.IsSuccessStatusCode)
                 {
-                    var genders = JsonConvert.DeserializeObject<List<Genders>>(res.Data);
-                    model.GenderList.AddRange(genders);
+                    var res = JsonConvert.DeserializeObject<ApiResponse>(resp.Content);
+
+
+                    if (res.Success)
+                    {
+                        var genders = JsonConvert.DeserializeObject<List<Genders>>(res.Data);
+                        model.GenderList.AddRange(genders);
+                    }
                 }
             }
+            catch (Exception)
+            {
+                throw;
+            }
+            
 
 
             //return solsList;
@@ -358,22 +386,30 @@ namespace Medical_Rgistrations.Controllers
 
             qualificationsList = new List<Qualification>();
 
-            RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
-
-            restsharpClient.SetBasicAuthenticator(api_username, api_password);
-
-            var restClient = await restsharpClient.GetClientInstance("/Qualifications/GetAll");
-            var resp = await restClient.GetAsync(restsharpClient._request);
-
-            if (resp.IsSuccessStatusCode)
+            try
             {
-                var res = JsonConvert.DeserializeObject<List<Qualification>>(resp.Content);
+                RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
 
-                foreach (var item in res)
+                restsharpClient.SetBasicAuthenticator(api_username, api_password);
+
+                var restClient = await restsharpClient.GetClientInstance("/Qualifications/GetAll");
+                var resp = await restClient.GetAsync(restsharpClient._request);
+
+                if (resp.IsSuccessStatusCode)
                 {
-                    model.QualificationList.Add(new Qualification { Id = item.Id, Value = item.Value });
+                    var res = JsonConvert.DeserializeObject<List<Qualification>>(resp.Content);
+
+                    foreach (var item in res)
+                    {
+                        model.QualificationList.Add(new Qualification { Id = item.Id, Value = item.Value });
+                    }
                 }
             }
+            catch (Exception)
+            {
+                throw;
+            }
+           
         }
 
         /// <summary>
