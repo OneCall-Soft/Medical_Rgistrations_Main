@@ -15,7 +15,6 @@ using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Medical_Rgistrations.Controllers
 {
-    //[Area("User")]
     public class HomeController : BasePageController
     {
 
@@ -31,10 +30,57 @@ namespace Medical_Rgistrations.Controllers
         }
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
+            MyHtmlContent model = new MyHtmlContent();
+            apiResponse = new ApiResponse();
 
-            return View();
+            try
+            {
+                RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
+
+                restsharpClient.SetBasicAuthenticator(api_username, api_password);
+
+                var restClient = await restsharpClient.GetClientInstance("/Template/GetActiveTemplate?pageName=home");
+
+                var response = await restClient.PostAsync(restsharpClient._request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
+                }
+
+
+                if (apiResponse.Data != null)
+                    model = JsonConvert.DeserializeObject<MyHtmlContent>(apiResponse.Data);
+
+                restsharpClient = new RestsharpClient(apiBaseUrl);
+
+                restsharpClient.SetBasicAuthenticator(api_username, api_password);
+
+                restClient = await restsharpClient.GetClientInstance("/Gallary/GetImagesByGroup/home");
+
+                response = await restClient.PostAsync(restsharpClient._request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
+
+                    if (apiResponse.Success)
+                    {
+                        var gallary = JsonConvert.DeserializeObject<Gallary>(apiResponse.Data);
+                        model.imgages = gallary;
+                    }
+
+                }
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+
+            return View(model);
         }
 
         [HttpGet]
@@ -206,41 +252,37 @@ namespace Medical_Rgistrations.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
-                    if (apiResponse != null && apiResponse.Success)
+                }
+
+                if (apiResponse.Data != null)
+                    model = JsonConvert.DeserializeObject<MyHtmlContent>(apiResponse.Data);
+
+                restsharpClient = new RestsharpClient(apiBaseUrl);
+
+
+                restsharpClient.SetBasicAuthenticator(api_username, api_password);
+
+                restClient = await restsharpClient.GetClientInstance("/Gallary/GetImagesByGroup/course");
+
+                response = await restClient.PostAsync(restsharpClient._request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
+
+                    if (apiResponse.Success)
                     {
-
-                        model = JsonConvert.DeserializeObject<MyHtmlContent>(apiResponse.Data);
-
-                        restsharpClient = new RestsharpClient(apiBaseUrl);
-
-
-                        restsharpClient.SetBasicAuthenticator(api_username, api_password);
-
-                        restClient = await restsharpClient.GetClientInstance("/Gallary/GetImagesByGroup/" + model.GallaryGroup);
-
-                        response = await restClient.PostAsync(restsharpClient._request);
-
-                        if (response.IsSuccessStatusCode)
-                        {
-                            apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
-
-                            if (apiResponse.Success)
-                            {
-                                var gallary = JsonConvert.DeserializeObject<Gallary>(apiResponse.Data);
-                                model.imgages = gallary;
-                            }
-
-                        }
-
-                        return View(model);
+                        var gallary = JsonConvert.DeserializeObject<Gallary>(apiResponse.Data);
+                        model.imgages = gallary;
                     }
+
                 }
             }
             catch (Exception)
             {
                 throw;
             }
-           
+
             return View(model);
         }
 
@@ -284,6 +326,7 @@ namespace Medical_Rgistrations.Controllers
         public async Task<IActionResult> AboutUs()
         {
             var model = new MyHtmlContent();
+            apiResponse = new ApiResponse();
             try
             {
                 RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
@@ -297,36 +340,30 @@ namespace Medical_Rgistrations.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
+                }
 
 
-                    if (apiResponse != null && apiResponse.Success)
+                if (apiResponse.Data != null)
+                    model = JsonConvert.DeserializeObject<MyHtmlContent>(apiResponse.Data);
+
+                restsharpClient = new RestsharpClient(apiBaseUrl);
+
+                restsharpClient.SetBasicAuthenticator(api_username, api_password);
+
+                restClient = await restsharpClient.GetClientInstance("/Gallary/GetImageGetImagesByGroup/about");
+
+                response = await restClient.PostAsync(restsharpClient._request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
+
+                    if (apiResponse.Success)
                     {
-
-                        model = JsonConvert.DeserializeObject<MyHtmlContent>(apiResponse.Data);
-
-                        restsharpClient = new RestsharpClient(apiBaseUrl);
-
-
-                        restsharpClient.SetBasicAuthenticator(api_username, api_password);
-
-                        restClient = await restsharpClient.GetClientInstance("/Gallary/GetImagesByGroup/" + model.GallaryGroup);
-
-                        response = await restClient.PostAsync(restsharpClient._request);
-
-                        if (response.IsSuccessStatusCode)
-                        {
-                            apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
-
-                            if (apiResponse.Success)
-                            {
-                                var gallary = JsonConvert.DeserializeObject<Gallary>(apiResponse.Data);
-                                model.imgages = gallary;
-                            }
-
-                        }
-
-                        return View(model);
+                        var gallary = JsonConvert.DeserializeObject<Gallary>(apiResponse.Data);
+                        model.imgages = gallary;
                     }
+
                 }
             }
             catch (Exception e)
@@ -371,7 +408,7 @@ namespace Medical_Rgistrations.Controllers
             {
                 throw;
             }
-            
+
 
 
             //return solsList;
@@ -409,7 +446,7 @@ namespace Medical_Rgistrations.Controllers
             {
                 throw;
             }
-           
+
         }
 
         /// <summary>
