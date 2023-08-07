@@ -1,0 +1,419 @@
+﻿@model MyHtmlContent
+
+@{
+    ViewBag.Title = "Template";
+}
+
+<link href="~/css/samples.css" rel="stylesheet" />
+<link href="~/css/neo.css" rel="stylesheet" />
+
+<form>
+
+    <div class="row">
+        <div class="col-6 py-3">
+            <label asp-for="Page" class="form-label h6"></label>
+            <select class="form-control" asp-for="Page">
+                <option value="">Select Template Page</option>
+                <option value="about">About</option>
+                <option value="contact">Contact</option>
+                <option value="course">Course</option>
+
+                @*@if (Model is not null)
+                @if (Model.PagesGroup.Any())
+                {
+                foreach (var item in Model.PagesGroup)
+                {
+                <option value="@item">@item</option>
+                }
+                }*@
+            </select>
+            <span class="text-danger" asp-validation-for="Page"></span>
+        </div>
+        <div class="col-6 py-3">
+            <input type="hidden" id="hidHtmlData" />
+            <input type="hidden" id="hidId" />
+            <label for="TemplateName" class="h6">Template Name</label>
+            <input class="form-control mb-3 " type="text" required name="TemplateName" id="TemplateName" placeholder="Template Name" />
+            <span class="text-danger d-none">Template Name is required</span>
+        </div>
+        <div class="col-4">
+            @*<div class="form-check">
+            <input class="form-check-input " type="checkbox" asp-for="Active">
+            <label class="form-check-label h6" asp-for="Active"></label>
+            </div>*@
+
+            <div class="checkbox-inline pl-3">
+                @*<label class="checkbox-inline">
+                <input type="checkbox" value="">  Adult News
+                </label>
+                *@
+                <div class="form-check ">
+                    <label class="checkbox-inline">
+                        <input class="form-check-input " type="checkbox" asp-for="Active"> Active
+                    </label>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div id="editor">
+    </div>
+    <button id="btnSetMaster" type="submit" class="float-right btn btn btn-outline-primary m-3">Save Template</button>
+    <button id="btnUpdateMaster" type="submit" class="float-right btn btn btn-outline-primary m-3 d-none">Update Template</button>
+    <button id="btnReset" type="reset" class="float-right btn btn btn-outline-primary m-3">Reset Template</button>
+</form>
+
+<div class="d-none" id="dcontactList">
+    <div class="row mt-5">
+        <div class="col-md-12 ">
+            <div class="card card-form">
+                <div class="row no-gutters">
+                    <div class="col-lg-12 card-form__body">
+                        <div class="table-responsive ">
+                            <table class="table mb-0 thead-border-top-0 mt-2" id="tcontactList">
+                                <thead>
+                                    <tr>
+                                        <th class="d-none">Active</th>
+                                        <th style="width: 150px;">Template</th>
+                                        <th style="width: 24px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="d-none " id="daboutList">
+    <div class="row mt-5">
+        <div class="col-md-12 ">
+            <div class="card card-form">
+                <div class="row no-gutters">
+                    <div class="col-lg-12 card-form__body">
+                        <div class="table-responsive ">
+                            <table class="table mb-0 thead-border-top-0 mt-2" id="taboutList">
+                                <thead>
+                                    <tr>
+                                        <th class="d-none">Active</th>
+                                        <th style="width: 150px;">Template</th>
+                                        <th style="width: 24px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-none " id="dcoursetList">
+    <div class="row mt-5">
+        <div class="col-md-12 ">
+            <div class="card card-form">
+                <div class="row no-gutters">
+                    <div class="col-lg-12 card-form__body">
+                        <div class="table-responsive ">
+                            <table class="table mb-0 thead-border-top-0 mt-2" id="tcourseList">
+                                <thead>
+                                    <tr>
+                                        <th class="d-none">Active</th>
+                                        <th style="width: 150px;">Template</th>
+                                        <th style="width: 24px;"></th>
+                                    </tr>
+                                </thead>
+                                <tbody class="list">
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/ckeditor/ckeditor.js"></script>
+    <script src="~/ckeditor/sample.js"></script>
+
+    <script>
+
+        initSample();
+        CKEDITOR.instances.editor.config.height = '350';
+
+
+        $(document).ready(function () {
+
+            getEditorData();
+            $("#btnSetMaster").removeClass('d-none');
+
+
+            function resetPage() {
+                CKEDITOR.instances.editor.setData('');
+
+                $("#Active").prop("checked", false);
+                $("#TemplateName").val('');
+                $("#hidId").val('');
+
+                $("#btnUpdateMaster").addClass('d-none');
+                $("#btnSetMaster").removeClass('d-none');
+            }
+
+            $("#btnReset").click(function () {
+                resetPage();
+
+            });
+
+            $("#Page").change(function () {
+                resetPage();
+                var page = $(this).val();
+
+                if (page === "" || page == undefined) {
+                    $("#dcontactList").addClass("d-none");
+                    $("#dcoursetList").addClass("d-none");
+                    $("#daboutList").addClass("d-none");
+                }
+                else
+                    getEditorData();
+            });
+
+            $("#btnUpdateMaster").click(function (e) {
+                e.preventDefault();
+
+                var htmlData = CKEDITOR.instances.editor.getData();
+                var active = $("#Active").is(":checked");
+                var templateName = $("#TemplateName").val();
+                var templatePage = $("#Page").val().toLowerCase();
+                var id = $("#hidId").val();
+
+                if (templateName === "") {
+                    $("#TemplateName").focus();
+                    alert('Template Name is required');
+                    return;
+                }
+
+                if (templatePage === "" || templatePage == undefined) {
+                    $("#Page").focus();
+                    alert('Page selection is required');
+                    return;
+                }
+
+                var requestObject = {
+                    "Id": id,
+                    "TemplateName": templateName,
+                    "Active": active,
+                    "htmlData": htmlData,
+                    "Page": templatePage
+                };
+
+
+
+                var url = '@Url.Action("UpdateTemplate", "Admin")';
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: url,
+                    cache: false,
+                    data: { 'template': requestObject },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            resetPage();
+                            getEditorData();
+                        }
+                    },
+                    error: function (response) {
+                        alert(response.message);
+
+                    }
+                    //error: errorCallback
+                });
+            });
+
+
+
+            $(document).on('click', '.editTemplate', function (e) {
+                e.preventDefault();
+                var htmlData = $(this).parent().parent().find('.htmlContent').html();
+                var active = $(this).parent().parent().find('.mastUpdateCheck').is(":checked");
+                var templateName = $(this).data("templatename");
+                var id = $(this).data("id");
+                $("#Active").prop("checked", active);
+
+
+                $("#btnUpdateMaster").removeClass('d-none');
+                $("#btnSetMaster").addClass('d-none');
+
+                $("#TemplateName").val(templateName);
+                $("#hidId").val(id);
+
+                CKEDITOR.instances.editor.setData(htmlData);
+
+            });
+
+            $("#btnSetMaster").on("click", function (e) {
+                e.preventDefault();
+
+                var htmlData = CKEDITOR.instances.editor.getData();
+                var active = $("#Active").is(":checked");
+                var templateName = $("#TemplateName").val();
+                var templatePage = $("#Page").val();
+                var id = $("#hidId").val();
+
+                var htmlContent = CKEDITOR.instances.editor.getData();
+                htmlContent = btoa(htmlContent);
+
+                if (templateName === "") {
+                    $("#TemplateName").focus();
+                    alert('Template Name is required');
+                    return;
+                }
+
+                if (templatePage === "" || templatePage == undefined) {
+                    $("#Page").focus();
+                    alert('Page selection is required');
+                    return;
+                }
+
+                var requestObject = {
+                    "Id": id,
+                    "TemplateName": templateName,
+                    "Active": active,
+                    "htmlData": htmlContent,
+                    "Page": templatePage.toLowerCase()
+                };
+
+
+                if (templateName === "") {
+                    $("#TemplateName").focus();
+                    alert('Template Name is required');
+                    return;
+
+                }
+
+                if (htmlContent != undefined) {
+                    //var studentid = $(this).attr("data-");
+                    var url = '@Url.Action("SetMaster", "Admin")';
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        data: requestObject,
+                        success: function (response) {
+                            if (response.success) {
+                                alert(response.message);
+                                resetPage();
+                                getEditorData();
+                            }
+                        },
+                        //error: errorCallback
+                    });
+                }
+            });
+        });
+
+
+
+        function random(values, index) {
+            var Editurl = '@Url.Action("EditMaster","Admin")' + '?id=' + values.Id;
+            var Deleteurl = '@Url.Action("EditMaster","Admin")' + '?id=' + values.Id;
+
+            var chk = $('<input type="checkbox" class=" ml-2 mastUpdateCheck" id="check' + index + '" data-id="' + values.Id + '" />');
+
+            chk.attr('checked', values.Active);
+
+            //var actions = $('<a href="' + Editurl + '" data-id=' + values.Id + ' data-templateName ="' + values.TemplateName + '"' +
+            //    ' class="text-muted editTemplate" > <i class="material-icons" > edit </i></a>' +
+            //    '<a href="#" data-name="' + values.TemplateName + '" id=' + values.Id +
+            //    ' class="text-muted deleteTemplate" > <i class="material-icons" ><span role="button">delete</span> </i></a > ');
+
+            var actions = $('<a href="#" data-id=' + values.Id + ' data-templateName ="' + values.TemplateName + '"' +
+                ' class="text-muted editTemplate" > <i class="material-icons" > edit </i></a>');
+
+            var tr = $('<tr class=""></tr>');
+            $('<td class="d-none"></td>').append(chk).appendTo(tr);
+            $('<td></td>').text(values.TemplateName).appendTo(tr);
+            $('<td></td>').addClass('d-none ').append('<div class="htmlContent"> ' + values.HtmlData + ' </div>').appendTo(tr);
+            $('<td></td>').append(actions).appendTo(tr);
+
+            renderList(tr);
+        }
+
+        function renderList(tr) {
+
+            var page = $("#Page").val().toLowerCase();
+
+            switch (page) {
+                case 'about': $("#daboutList").removeClass("d-none");
+                    $("#dcontactList").addClass("d-none");
+                    $("#dcoursetList").addClass("d-none");
+                    $('#taboutList').append(tr);
+                    break;
+                case 'contact': $("#dcontactList").removeClass("d-none");
+                    $("#daboutList").addClass("d-none");
+                    $("#dcoursetList").addClass("d-none");
+                    $('#tcontactList').append(tr);
+                    break;
+                case 'course': $("#dcoursetList").removeClass("d-none");
+                    $("#daboutList").addClass("d-none");
+                    $("#dcontactList").addClass("d-none");
+                    $('#tcourseList').append(tr);
+                    break;
+                default:
+                    break;
+            }
+        }
+
+        function getEditorData() {
+
+            var page = $("#Page").val().toLowerCase();
+
+            //var studentid = $(this).attr("data-");
+            var url = '@Url.Action("PopulateTemplate", "Admin")';
+            $.ajax({
+                type: 'POST',
+                data: { pageName: page },
+                url: url,
+                success: function (response) {
+                    var res = JSON.parse(response.data);
+
+                    $('#taboutList').find("tbody tr").remove();
+                    $('#tcourseList').find("tbody tr").remove();
+                    $('#tcontactList').find("tbody tr").remove();
+
+                    $.each(res, function (index, value) {
+                        random(value, index);
+                    });
+
+                },
+                //error: errorCallback
+            });
+        }
+    </script>
+}
+
+@section navigationbar{
+    <div class="container-fluid page__heading-container">
+        <div class="page__heading d-flex align-items-end">
+            <div class="flex">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Admin">Home</a></li>
+                        <li class="breadcrumb-item active"
+                            aria-current="page">Template Master</li>
+                    </ol>
+                </nav>
+                <h1 class="m-0 mt-2">Template</h1>
+            </div>
+        </div>
+    </div>
+    }

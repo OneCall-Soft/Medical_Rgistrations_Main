@@ -1,0 +1,278 @@
+﻿@model FacultyViewModel
+
+@{
+    ViewBag.Title = "Faculty Template";
+}
+
+<link type="text/css" href="~/assets/vendor/toastr.min.css" rel="stylesheet">
+
+<form asp-action="FacultyMaster" asp-asp-controller="Admin" method="post" enctype="multipart/form-data">
+
+    <div class="card align-content-center p-3 m-5">
+        <div class="text-center h2">Faculty Form</div>
+        <div class="row p-5  ">
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input class="form-control" asp-for="Name">
+                    <span class="text-danger" asp-validation-for="Name"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="InstituteName" class="form-label"></label>
+                    <input class="form-control" asp-for="InstituteName" />
+                    <span class="text-danger" asp-validation-for="InstituteName"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input class="form-control" asp-for="Email">
+                    <span class="text-danger" asp-validation-for="Email"></span>
+                </div>
+            </div>
+
+
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="ProfileImg" class="form-label"></label>
+                    <input class="form-control" accept=".jpg,.png,.jpeg" asp-for="ProfileImg">
+                    <span class="text-danger" asp-validation-for="ProfileImg"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-input" type="checkbox" asp-for="Active" />
+                        <label asp-for="Active" class=""></label>
+                        <span class="text-danger" asp-validation-for="Active"></span>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label"></label>
+                    <textarea class="form-control" asp-for="Description" style="resize:none"></textarea>
+                    <span class="text-danger" asp-validation-for="Description"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <button id="btnRegister" class="btn  btn-md btn-outline-primary float-right ">Add Faculty</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</form>
+@*<button type="button" class="btn btn-success alertBtn" data-toggle="toastr" data-toastr-type="success" data-toastr-title="Well Done!" data-toastr-message="@ViewBag.message">
+    Click me
+</button>*@
+
+
+<div class="table-responsive border-bottom"
+     data-toggle="lists"
+     data-lists-values='["js-lists-values-employee-name"]'>
+
+    <div class="search-form search-form--light m-3">
+        <input type="text"
+               class="form-control search"
+               placeholder="Search">
+        <button class="btn"
+                type="button">
+            <i class="material-icons">search</i>
+        </button>
+    </div>
+   @* <div>
+        <button class="btn btn-warning"
+                type="button">
+            Update All
+        </button>
+    </div>*@
+
+    <table class="table mb-0 thead-border-top-0" id="facultyList">
+        <thead>
+            <tr>
+                <th style="width: 150px;">Active</th>
+                <th style="width: 150px;">Faculty Name</th>
+                <th style="width: 37px;">Email</th>
+                <th style="width: 80px;">Institute</th>
+                <th style="width: 51px;">Description</th>
+                <th style="width: 24px;"></th>
+            </tr>
+        </thead>
+        <tbody class="list">
+           
+        </tbody>
+    </table>
+
+
+</div>
+
+<style>
+
+</style>
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            UpdateFaculties();
+
+            $(document).on('click', '.mastUpdateCheck', function (e) {
+
+                var checkValue = $(this).is(":checked");
+                var id = $(this).data('id');
+
+                var obj = {
+                    "Active": checkValue,
+                    "Id": id
+                };
+
+                
+                $.ajax({
+                    type: "POST",
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
+                    dataType: 'json',
+                    url: '@Url.Action("FacultyActive","Faculty")',
+                    data: obj,
+                    success: function (response) {
+                        if (response.success) {
+                            //alert(response.message);
+                            //UpdateFaculties();
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.message);
+                    },
+                    error: function (response) {
+                        alert(response.message);
+                    }
+                });
+
+            });
+
+
+            $(document).on('click', 'a.deleteFaculty', function (e) {
+                e.preventDefault();
+
+                var confirmed = confirm("do you want to delete " + $(this).data("name") + " ?");
+                var IdToBeDeleted = $(this).attr("id");
+
+                if (confirmed) {
+                    $.ajax({
+                        type: "POST",
+                        url: '@Url.Action("DeleteFaculty","Faculty")',
+                        data: { "id": IdToBeDeleted },
+                        success: function (response) {
+                            if (response.success) {
+                                alert(response.message);
+                                UpdateFaculties();
+                            }
+                        },
+                        failure: function (response) {
+                            alert(response.message);
+                        },
+                        error: function (response) {
+                            alert(response.message);
+                        }
+                    });
+                }
+
+            });
+
+            function UpdateFaculties() {
+                $.ajax(
+                    {
+                        type: "GET",
+                        url: '@Url.Action("PopulateFaculties","Faculty")',
+                        dataType: "json",
+                        crossDomain: true,
+                        async: true,
+                        cache: false,
+                        success: function (data) {
+
+                            //$('#tblPendingHrResponse').find($('.trTblPendingHrResponse')).remove();
+                            if (data.success) {
+                                $('#facultyList').find("tbody tr").remove();
+                                var list = JSON.parse(data.data);
+
+                                $.each(list, function (index, value) {
+                                    random(value, index);
+                                });
+                            }
+                        },
+                        error: function (x, e) {
+                            //alert('There seems to be some problem while fetching records!');
+                        }
+
+                    }
+                );
+            }
+
+
+            function random(values, index) {
+                var Editurl = '@Url.Action("EditFaculty","Faculty")' + '?id=' + values.FacultyId;
+                //var Deleteurl = '@Url.Action("DeleteFaculty","Faculty")' + '?id=' + values.FacultyId;
+
+                var chk = $('<input type="checkbox" class=" ml-2 mastUpdateCheck" id="check' + index + '" data-id="' + values.FacultyId + '" />');
+
+                chk.attr('checked', values.Active);
+                //chk.prop('checked',values.Active);
+
+                //var actions = $('<a href=' + Editurl + ' data-id=' + values.FacultyId +
+                //    ' class="text-muted" > <i class="material-icons" > edit </i></a>' +
+                //    '<a data-name=' + values.Name + ' id=' + values.FacultyId +
+                //    ' class="text-muted deleteFaculty" > <i class="material-icons" ><span role="button">delete</span> </i></a > ');
+
+                var actions = $('<a href=' + Editurl + ' data-id=' + values.FacultyId +
+                    ' class="text-muted" > <i class="material-icons" > edit </i></a>');
+
+
+                var tr = $('<tr class=""></tr>');
+                $('<td></td>').append(chk).appendTo(tr);
+                $('<td></td>').text(values.Name).appendTo(tr);
+                $('<td></td>').text(values.Email).appendTo(tr);
+                $('<td></td>').text(values.InstituteName).appendTo(tr);
+                $('<td></td>').text(values.Description).appendTo(tr);
+                $('<td></td>').append(actions).appendTo(tr);
+
+                $('#facultyList').append(tr);
+
+            }
+
+        });
+    </script>
+}
+@section navigationbar{
+    <div class="container-fluid page__heading-container">
+        <div class="page__heading d-flex align-items-end">
+            <div class="flex">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Admin">Home</a></li>
+                        <li class="breadcrumb-item active"
+                            aria-current="page">Faculty Master</li>
+                    </ol>
+                </nav>
+                <h1 class="m-0 mt-2">New Faculty</h1>
+            </div>
+            <div class="flatpickr-wrapper ml-3">
+                <div id="recent_orders_date"
+                     data-toggle="flatpickr"
+                     data-flatpickr-wrap="true"
+                     data-flatpickr-mode="range"
+                     data-flatpickr-alt-format="d/m/Y"
+                     data-flatpickr-date-format="d/m/Y">
+                    @*<a href="javascript:void(0)"
+                class="link-date"
+                data-toggle>13/03/2018 to 20/03/2018</a>
+                <input class="flatpickr-hidden-input"
+                type="hidden"
+                value="13/03/2018 to 20/03/2018"
+                data-input>*@
+                </div>
+            </div>
+        </div>
+    </div>
+    }

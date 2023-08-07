@@ -1,0 +1,493 @@
+﻿@{
+    ViewBag.Title = "Contact Template";
+}
+
+<link href="~/css/samples.css" rel="stylesheet" />
+<link href="~/css/neo.css" rel="stylesheet" />
+
+<form>
+    <div class="row">
+        <div class="col-8 mt-4">
+            <input type="hidden" id="hidHtmlData" />
+            <input type="hidden" id="hidId" />
+            <label for="TemplateName">Template Name</label>
+            <input class="form-control mb-3 " type="text" required name="TemplateName" id="TemplateName" placeholder="Template Name" />
+            <span class="text-danger d-none">Template Name is required</span>
+        </div>
+        <div class="col-4 mt-4">
+            <label class="input-check-label" for="Active">Active</label>
+            <input class="form-input-check mb-3 " type="checkbox" required name="Active" id="Active" />
+        </div>
+    </div>
+    <div id="editor">
+    </div>
+    <button id="btnSetMaster" type="submit" class="float-end btn btn btn-outline-primary m-3 d-none" style="float:right">Save Template</button>
+    <button id="btnUpdateMaster" type="submit" class="float-end btn btn btn-outline-primary m-3 d-none" style="float:right">Update Template</button>
+    <button id="btnReset" type="reset" class="float-end btn btn btn-outline-primary m-3" style="float:right">Reset Template</button>
+</form>
+
+
+
+<div class="row mt-5">
+    <div class="col-md-12 ">
+        <div class="card card-form">
+            <div class="row no-gutters">
+                <div class="col-lg-12 card-form__body">
+
+                    <div class="table-responsive border-bottom">
+                        <table class="table mb-0 thead-border-top-0 mt-2" id="contactList">
+                            <thead>
+                                <tr>
+                                    <th class="d-none">Active</th>
+                                    <th style="width: 150px;">Template</th>
+                                    <th style="width: 24px;"></th>
+                                </tr>
+                            </thead>
+                            <tbody class="list">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="card card-form d-none">
+    <div class="row no-gutters">
+        <div class="col-lg-4 card-body">
+            <p><strong class="headings-color">Search</strong></p>
+            <p class="text-muted">
+                Add search functionality to your tables with List.js. Please read the <a href="http://listjs.com/"
+                                                                                         target="_blank">official plugin documentation</a> for a full list of options.
+            </p>
+        </div>
+        <div class="col-lg-8 card-form__body">
+
+            <div class="table-responsive border-bottom"
+                 data-toggle="lists"
+                 data-lists-values='["js-lists-values-employee-name"]'>
+
+                <div class="search-form search-form--light m-3">
+                    <input type="text"
+                           class="form-control search"
+                           placeholder="Search">
+                    <button class="btn"
+                            type="button">
+                        <i class="material-icons">search</i>
+                    </button>
+                </div>
+
+                <table class="table mb-0 thead-border-top-0">
+                    <thead>
+                        <tr>
+
+                            <th>Employee</th>
+
+                            <th style="width: 37px;">Status</th>
+                            <th style="width: 120px;">Last Activity</th>
+                            <th style="width: 51px;">Earnings</th>
+                            <th style="width: 24px;"></th>
+                        </tr>
+                    </thead>
+                    <tbody class="list"
+                           id="staff02">
+
+                        <tr>
+
+                            <td>
+
+                                <span class="js-lists-values-employee-name">Michael Smith</span>
+
+                            </td>
+
+                            <td><span class="badge badge-warning">ADMIN</span></td>
+                            <td><small class="text-muted">3 days ago</small></td>
+                            <td>&dollar;12,402</td>
+                            <td>
+                                <a href="#"
+                                   class="text-muted"><i class="material-icons">more_vert</i></a>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>
+
+                                <span class="js-lists-values-employee-name">Connie Smith</span>
+
+                            </td>
+
+                            <td><span class="badge badge-success">USER</span></td>
+                            <td><small class="text-muted">1 week ago</small></td>
+                            <td>&dollar;1,943</td>
+                            <td>
+                                <a href="#"
+                                   class="text-muted"><i class="material-icons">more_vert</i></a>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>
+
+                                <span class="js-lists-values-employee-name">John Connor</span>
+
+                            </td>
+
+                            <td><span class="badge badge-primary">MANAGER</span></td>
+                            <td><small class="text-muted">1 week ago</small></td>
+                            <td>&dollar;1,943</td>
+                            <td>
+                                <a href="#"
+                                   class="text-muted"><i class="material-icons">more_vert</i></a>
+                            </td>
+                        </tr>
+
+                        <tr>
+
+                            <td>
+
+                                <span class="js-lists-values-employee-name">Michael Smith</span>
+
+                            </td>
+
+                            <td><span class="badge badge-warning">ADMIN</span></td>
+                            <td><small class="text-muted">3 days ago</small></td>
+                            <td>&dollar;12,402</td>
+                            <td>
+                                <a href="#"
+                                   class="text-muted"><i class="material-icons">more_vert</i></a>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>
+
+                                <span class="js-lists-values-employee-name">Connie Smith</span>
+
+                            </td>
+
+                            <td><span class="badge badge-success">USER</span></td>
+                            <td><small class="text-muted">1 week ago</small></td>
+                            <td>&dollar;1,943</td>
+                            <td>
+                                <a href="#"
+                                   class="text-muted"><i class="material-icons">more_vert</i></a>
+                            </td>
+                        </tr>
+                        <tr>
+
+                            <td>
+
+                                <span class="js-lists-values-employee-name">John Connor</span>
+
+                            </td>
+
+                            <td><span class="badge badge-primary">MANAGER</span></td>
+                            <td><small class="text-muted">1 week ago</small></td>
+                            <td>&dollar;1,943</td>
+                            <td>
+                                <a href="#"
+                                   class="text-muted"><i class="material-icons">more_vert</i></a>
+                            </td>
+                        </tr>
+
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+@section Scripts{
+    <script src="~/ckeditor/ckeditor.js"></script>
+    <script src="~/ckeditor/sample.js"></script>
+
+    <script>
+
+        initSample();
+        CKEDITOR.instances.editor.config.height = '350';
+
+
+        $(document).ready(function () {
+
+            getEditorData();
+
+            $("#btnSetMaster").removeClass('d-none');
+
+
+            $(document).on('click', '.mastUpdateCheck', function (e) {
+
+                var checkValue = $(this).is(":checked");
+                var id = $(this).data('id');
+
+                var obj = {
+                    "Active": checkValue,
+                    "Id": id
+                };
+
+
+                $.ajax({
+                    type: "POST",
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
+                    dataType: 'json',
+                    url: '@Url.Action("SetContactActiveTemplate","Admin")',
+                    data: obj,
+                    success: function (response) {
+                        if (response.success) {
+                            getEditorData();
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.message);
+                    },
+                    error: function (response) {
+                        alert(response.message);
+                    }
+                });
+
+            });
+
+            function resetPage() {
+                CKEDITOR.instances.editor.setData('');
+
+                $("#Active").prop("checked", false);
+                $("#TemplateName").val('');
+                $("#hidId").val('');
+
+                $("#btnUpdateMaster").addClass('d-none');
+                $("#btnSetMaster").removeClass('d-none');
+            }
+
+            $("#btnReset").click(function () {
+                resetPage();
+
+            });
+
+
+            $(document).on('click', '.editTemplate', function (e) {
+                e.preventDefault();
+                var htmlData = $(this).parent().parent().find('.htmlContent').html();
+                var active = $(this).parent().parent().find('.mastUpdateCheck').is(":checked");
+                var templateName = $(this).data("templatename");
+                var id = $(this).data("id");
+                $("#Active").prop("checked", active);
+
+
+                $("#btnUpdateMaster").removeClass('d-none');
+                $("#btnSetMaster").addClass('d-none');
+
+                $("#TemplateName").val(templateName);
+                $("#hidId").val(id);
+
+                CKEDITOR.instances.editor.setData(htmlData);
+
+            });
+
+            $("#btnUpdateMaster").click(function (e) {
+                e.preventDefault();
+
+                var htmlData = CKEDITOR.instances.editor.getData();
+                var active = $("#Active").is(":checked");
+                var templateName = $("#TemplateName").val();
+                var id = $("#hidId").val();
+
+                if (templateName === "") {
+                    $("#TemplateName").focus();
+                    alert('Template Name is required');
+                    return;
+                }
+
+                var requestObject = {
+                    "Id": id,
+                    "TemplateName": templateName,
+                    "Active": active,
+                    "htmlData": htmlData
+                };
+
+
+
+                var url = '@Url.Action("UpdateTemplate", "Admin")';
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: url,
+                    cache: false,
+                    data: { 'template': requestObject, pageName: 'contact' },
+                    success: function (response) {
+                        if (response.success) {
+                            alert(response.message);
+                            resetPage();
+                            getEditorData();
+                        }
+                    },
+                    error: function (response) {
+                        alert(response.message);
+
+                    }
+                    //error: errorCallback
+                });
+            });
+
+            //$(document).on('click', 'a.deleteTemplate', function (e) {
+            //    e.preventDefault();
+
+            //    var templateName = $(this).data("name");
+            //    var confirmed = confirm("do you want to delete " + templateName + " ?");
+
+            //    var IdToBeDeleted = $(this).attr("id");
+
+            //    if (confirmed) {
+            //        $.ajax({
+            //            type: "POST",
+            //            url: '@Url.Action("deleteTemplate","Admin")',
+            //            data: { "id": IdToBeDeleted },
+            //            success: function (response) {
+            //                if (response.success) {
+            //                    alert(response.message);
+            //                    getEditorData();
+            //                }
+            //            },
+            //            failure: function (response) {
+            //                alert(response.message);
+            //            },
+            //            error: function (response) {
+            //                alert(response.message);
+            //            }
+            //        });
+            //    }
+
+            //});
+
+            $("#btnSetMaster").on("click", function (e) {
+                e.preventDefault();
+
+                var formData = new FormData();
+
+                var templateName = $("#TemplateName").val();
+
+                if (templateName === "") {
+                    $("#TemplateName").focus();
+                    alert('Template Name is required');
+                    return;
+                }
+
+                var htmlContent = CKEDITOR.instances.editor.getData();
+                htmlContent = btoa(htmlContent);
+                formData.append("htmlData", htmlContent);
+                formData.append("templateName", templateName);
+                formData.append("page", 'contact');
+
+                if (htmlContent != undefined) {
+                    //var studentid = $(this).attr("data-");
+                    var url = '@Url.Action("SetMaster", "Admin")';
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        contentType: false,
+                        processData: false,
+                        cache: false,
+                        data: formData,
+                        success: function (response) {
+                            if (response.success) {
+                                alert(response.message);
+                                resetPage();
+                                getEditorData();
+                            }
+                        },
+                        //error: errorCallback
+                    });
+                }
+            });
+        });
+
+
+
+        function PopulatData(values, index) {
+            var Editurl = '@Url.Action("EditContactMaster","Admin")' + '?id=' + values.Id;
+            var Deleteurl = '@Url.Action("EditContactMaster","Admin")' + '?id=' + values.Id;
+
+            var chk = $('<input type="checkbox" class=" ml-2 mastUpdateCheck" id="check' + index + '" data-id="' + values.Id + '" />');
+
+            chk.attr('checked', values.Active);
+            //chk.prop('checked',values.Active);
+
+            //var actions = $('<a href="' + Editurl + '" data-id=' + values.Id + ' data-templateName ="' + values.TemplateName + '"' +
+            //    ' class="text-muted editTemplate" > <i class="material-icons" > edit </i></a>' +
+            //    '<a href="#" data-name="' + values.TemplateName + '" id=' + values.Id +
+            //    ' class="text-muted deleteTemplate" > <i class="material-icons" ><span role="button">delete</span> </i></a > ');
+
+            var actions = $('<a href="#" data-id=' + values.Id + ' data-templateName ="' + values.TemplateName + '"' +
+                ' class="text-muted editTemplate" > <i class="material-icons" > edit </i></a>');
+
+
+
+            var tr = $('<tr class=""></tr>');
+            $('<td class = "d-none"></td>').append(chk).appendTo(tr);
+            $('<td></td>').text(values.TemplateName).appendTo(tr);
+            $('<td></td>').addClass('d-none ').append('<div class="htmlContent"> ' + values.HtmlData + ' </div>').appendTo(tr);
+            $('<td></td>').append(actions).appendTo(tr);
+
+            $('#contactList').append(tr);
+
+        }
+
+        function getEditorData() {
+
+            //var studentid = $(this).attr("data-");
+            var url = '@Url.Action("PopulateTemplate", "Admin")';
+            $.ajax({
+                type: 'post',
+                data: {pageName: 'contact' },
+                url: url,
+                success: function (response) {
+
+                    $('#contactList').find("tbody tr").remove();
+
+                    var res = JSON.parse(response.data);
+
+                    $.each(res, function (index, value) {
+                        PopulatData(value, index);
+                    });
+
+                },
+                //error: errorCallback
+            });
+        }
+    </script>
+    }
+
+@section navigationbar{
+    <div class="container-fluid page__heading-container">
+        <div class="page__heading d-flex align-items-end">
+            <div class="flex">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Admin">Home</a></li>
+                        <li class="breadcrumb-item active"
+                            aria-current="page">Contact Master</li>
+                    </ol>
+                </nav>
+                <h1 class="m-0 mt-2">Contact Template</h1>
+            </div>
+            <div class="flatpickr-wrapper ml-3">
+                <div id="recent_orders_date"
+                     data-toggle="flatpickr"
+                     data-flatpickr-wrap="true"
+                     data-flatpickr-mode="range"
+                     data-flatpickr-alt-format="d/m/Y"
+                     data-flatpickr-date-format="d/m/Y">
+                    <a href="javascript:void(0)"
+                       class="link-date"
+                       data-toggle>13/03/2018 to 20/03/2018</a>
+                    <input class="flatpickr-hidden-input"
+                           type="hidden"
+                           value="13/03/2018 to 20/03/2018"
+                           data-input>
+                </div>
+            </div>
+        </div>
+    </div>
+    }

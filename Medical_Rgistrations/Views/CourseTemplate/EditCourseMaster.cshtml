@@ -1,0 +1,73 @@
+﻿@model MyHtmlContent
+
+
+@{
+    ViewBag.Title = "Edit Course Template";
+}
+
+<link href="~/css/samples.css" rel="stylesheet" />
+<link href="~/css/neo.css" rel="stylesheet" />
+
+<form id="CourseForm" asp-action="UpdateTemplate" asp-controller="CourseTemplate" method="post">
+    @*<div class="d-none htmlContent">
+    @Model.HtmlData
+    </div>*@
+    <div class="row">
+        <div class="col-12 mt-4">
+            <label asp-for="TemplateName">Template Name</label>
+            <input class="form-control mb-3 " asp-for="TemplateName" />
+            <input class="form-control mb-3 " type="hidden" asp-for="Id" />
+            <input class="form-control mb-3 " type="hidden" asp-for="Active" />
+            <input class="form-control mb-3 htmlContent" type="hidden" asp-for="HtmlData" />
+        </div>
+    </div>
+    <div id="editor">
+    </div>
+    <button id="btnSetMaster" type="button" class="float-end btn btn btn-outline-primary m-3" style="float:right">Update Template</button>
+    <a id="btnCancel" asp-action="CourseMaster" asp-controller="CourseTemplate" type="button" class="float-end btn btn btn-outline-primary m-3" style="float:right">Cancel</a>
+</form>
+
+
+
+@section Scripts{
+    <script src="~/ckeditor/ckeditor.js"></script>
+    <script src="~/ckeditor/sample.js"></script>
+
+    <script>
+
+        initSample();
+        CKEDITOR.instances.editor.config.height = '350';
+
+
+        $(document).ready(function () {
+
+
+            CKEDITOR.instances.editor.setData($(".htmlContent").val());
+
+            $("#btnSetMaster").click(function(){
+                $("#HtmlData").val(CKEDITOR.instances.editor.getData());
+                $("#CourseForm").trigger("submit");
+            });
+            
+
+
+        });
+    </script>
+}
+
+@section navigationbar{
+    <div class="container-fluid page__heading-container">
+        <div class="page__heading d-flex align-items-end">
+            <div class="flex">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Admin">Home</a></li>
+                        <li class="breadcrumb-item active"
+                            aria-current="page">Course Master</li>
+                    </ol>
+                </nav>
+                <h1 class="m-0 mt-2">Course Template</h1>
+            </div>          
+        </div>
+    </div>
+    }

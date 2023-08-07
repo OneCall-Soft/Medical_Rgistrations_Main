@@ -1,0 +1,282 @@
+﻿@model RegisterViewModels
+
+@{
+    ViewBag.title = "Registration";
+}
+
+
+<form asp-action="Registration" asp-controller="Home" method="post" enctype="multipart/form-data" autocomplete="on">
+    <div class="card align-content-center p-3 m-5">
+        <div class="text-center h2">Application Form</div>
+        <div class="row p-5  ">
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label asp-for="Name" class="form-label"></label>
+                    <input class="form-control" asp-for="Name">
+                    <span class="text-danger" asp-validation-for="Name"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label asp-for="Address" class="form-label"></label>
+                    <textarea class="form-control" style="resize:none" asp-for="Address"></textarea>
+                    <span class="text-danger" asp-validation-for="Address"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="Pincode" class="form-label"></label>
+                    <input class="form-control" asp-for="Pincode">
+                    <span class="text-danger" asp-validation-for="Pincode"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="Mobile" class="form-label"></label>
+                    <input class="form-control" asp-for="Mobile" />
+                    <span class="text-danger" asp-validation-for="Mobile"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input class="form-control" asp-for="Email" />
+                    <span class="text-danger" asp-validation-for="Email"></span>
+                </div>
+            </div>
+            <div class="col-md-2">
+                <div class="mb-3">
+                    Gender
+                </div>
+            </div>
+            <div class="col-md-10">
+                <div class="mb-3 ">
+                    @if (Model.GenderList.Any())
+                    {
+                        for (int i = 0; i < Model.GenderList.Count; i++)
+                        {
+                            <span class="m-1">
+                                <input class="" type="radio" asp-for="GenderId" value="@Model.GenderList[i].Id">
+                                <label class="text-uppercase" asp-for="@Model.GenderList[i].Id">@Model.GenderList[i].Value</label>
+                            </span>
+                        }
+                    }
+                </div>
+                <span class="text-danger d-block m-2" class="text-danger" asp-validation-for="GenderId"></span>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="DOB" class="form-label"></label>
+                    <input class="form-control" asp-for="DOB">
+                    <span class="text-danger" asp-validation-for="DOB"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="Nationality" class="form-label"></label>
+                    <input class="form-control" asp-for="Nationality">
+                    <span class="text-danger" asp-validation-for="Nationality"></span>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="mb-3">
+                    <label asp-for="QualificationId" class="form-label"></label>
+                    <select class="form-control" asp-for="QualificationId">
+                        <option value="">Select qualification</option>
+                        @if (Model.QualificationList.Any())
+                        {
+                            foreach (var item in Model.QualificationList)
+                            {
+                                <option value="@item.Id">@item.Value</option>
+                            }
+                        }
+                    </select>
+                    <span class="text-danger" asp-validation-for="QualificationId"></span>
+                </div>
+            </div>
+
+            <div class="col-md-5">
+                <div class="mb-3">
+                    <label asp-for="InstituteName" class="form-label"></label>
+                    <input class="form-control" asp-for="InstituteName">
+                    <span class="text-danger" asp-validation-for="InstituteName"></span>
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <div class="mb-3">
+                    <label asp-for="Year" class="form-label"></label>
+                    <select class="form-control" asp-for="Year">
+                        <option value="">Select year</option>
+                        @if (Model.allYears.Any())
+                        {
+                            foreach (var item in Model.allYears)
+                            {
+                                <option value="@item">@item</option>
+                            }
+                        }
+                    </select>
+                    <span class="text-danger" asp-validation-for="Year"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="CompletePart" class="form-label"></label>
+                    <input class="form-control" asp-for="CompletePart">
+                    <span class="text-danger" asp-validation-for="CompletePart"></span>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="RCPCode" class="form-label"></label>
+                    <input class="form-control" asp-for="RCPCode">
+                    <span class="text-danger" asp-validation-for="RCPCode"></span>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" asp-for="ReadTermsCondition">
+                        <label class="form-check-label" asp-for="ReadTermsCondition"></label>
+                        <span class="text-danger" asp-validation-for="ReadTermsCondition"></span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <button type="submit" id="btnRegister" class="btn  btn-md btn-outline-primary float-end">Register</button>
+            </div>
+        </div>
+    </div>
+</form>
+@section Styles{
+    <style>
+
+    </style>
+}
+@section Scripts{
+
+    <script>
+        $(document).ready(function () {
+
+            if ($("#ReadTermsCondition").is(":checked") == false) {
+                $("#btnRegister").prop("disabled", true);
+            }
+            else
+                $("#btnRegister").prop("disabled", false);
+
+            var invalidfile;
+
+            /// restrict alphabets and special character
+            $("#Mobile").keypress(function (e) {
+                var keyCode = e.which;
+
+                if ((keyCode != 8 || keyCode == 32) && (keyCode < 48 || keyCode > 57)) {
+                    return false;
+                }
+            });
+
+            //data - bs - toggle="modal" data - bs - target="#staticBackdrop"
+
+
+            $("#btnClose").click(function (e) {
+                $("#btnRegister").prop("disabled", true);
+                $("#ReadTermsCondition").prop('checked', false);
+            });
+
+            $("#readAllTerms").click(function (e) {
+                $("#btnRegister").prop("disabled", false);
+            });
+
+            $("#ReadTermsCondition").click(function (e) {
+                if ($(this).is(":checked") == false) {
+                    $("#btnRegister").prop("disabled", true);
+                } else {
+                    $("#staticBackdrop").modal('toggle');
+                    //$('#myModal').modal('toggle');
+
+                }
+            });
+
+            $("#btnRegister").click(function () {
+                if ($("#ReadTermsCondition").is(":checked") == false) {
+                    $("#btnRegister").prop("disabled", true);
+                }
+                else
+                    $("#btnRegister").prop("disabled", false);
+
+            });
+
+            //$("#ReadTermsCondition").click(function (element) {
+            //    if ($(element).is(":checked") == true) {
+            //        var address = $("#Address").val();
+            //        $("#Cor_Address").val(address).parent().hide();
+            //    } else {
+            //        $("#Cor_Address").parent().show();
+            //    }
+            //}
+        });
+    </script>
+}
+@*
+
+<button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#staticBackdrop">
+    Launch static backdrop modal
+</button>*@
+
+<!-- Modal -->
+@*<div class="modal fade" id="staticBackdrop" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="staticBackdropLabel">Terms & Conditions</h5>
+                <button type="button" class="btn-close" id="btnClose" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body" style="">
+                <p>•  Places will be allocated on a first come first serve basis as seats are limited.</p>
+                <p>•  Registration continues till all seats are filled.</p>
+                <p>•  Full payment is to be made at the time of registration and fee will be returned if you do not get a place on the course.</p>
+                <p>•  Written cancellations received before 1st September will be given a refund after 20% reduction towards service charges.</p>
+                <p>•  Cancellations after 1st September attract no refund.</p>
+                <p>•  It is not possible to channel the paid fees for the next course as the fee structure may change.</p>
+                <p>•  In exceptional circumstances, it may be necessary to cancel the course at short notice and full refund of the course fee would be made to the candidates.</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" id="readAllTerms" data-bs-dismiss="modal">Okay</button>
+            </div>
+        </div>
+    </div>
+</div>*@
+<button type="button"
+        class="btn btn-info"
+        data-toggle="modal"
+        data-target="#modal-large">
+    Large Modal
+</button>
+
+<div id="modal-large" class="modal fade" tabindex="-1" aria-labelledby="modal-large-title" style="display: none;" data-bs-backdrop="static" data-bs-keyboard="false"  aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="modal-large-title">Large modal</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">×</span>
+                </button>
+            </div> <!-- // END .modal-header -->
+            <div class="modal-body">
+                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Repudiandae aliquam tempora quibusdam rem facere? Nulla dolorum, velit cumque maiores architecto officiis reprehenderit adipisci magnam doloribus dolores ratione error omnis quos voluptate culpa excepturi, autem ipsum! Vitae exercitationem cumque provident, aliquid repudiandae placeat necessitatibus?</p>
+                <p>Temporibus delectus soluta necessitatibus a est dolores quos esse enim, sint maxime assumenda sapiente harum tempora eius ullam. Earum quam, explicabo magni, blanditiis sint, nam reprehenderit porro suscipit voluptates cum eius. Pariatur vel rerum, saepe, rem harum, nam ipsum deserunt vitae odio, quaerat sapiente nulla! Nulla nesciunt labore, distinctio aut, aliquam possimus sapiente qui adipisci quae fuga, consectetur hic. Facilis nostrum officiis saepe quia nemo, adipisci libero illo sint omnis. Placeat doloremque, omnis eligendi ullam fugit, aut.</p>
+                <p>Aliquam maxime nobis ut porro sit, repellendus beatae provident suscipit at soluta sapiente, cupiditate dolore similique alias doloribus aperiam, veritatis quibusdam numquam adipisci sequi quasi rerum architecto inventore vitae fugiat. Odio corporis est, temporibus earum molestias quos, labore dignissimos eligendi, laboriosam, incidunt illum!</p>
+                <p>Itaque officia repellat temporibus quis quasi ipsum reprehenderit dicta pariatur tenetur nisi officiis ad eaque veritatis velit dolore eos iste, beatae labore. Quo, incidunt vitae sint tempore, delectus sapiente pariatur labore illo veniam itaque molestiae consequatur doloribus.</p>
+            </div> <!-- // END .modal-body -->
+            <div class="modal-footer">
+                <button type="button" class="btn btn-light" data-dismiss="modal">Close</button>
+                <button type="button" class="btn btn-primary">Save changes</button>
+            </div> <!-- // END .modal-footer -->
+        </div> <!-- // END .modal-content -->
+    </div> <!-- // END .modal-dialog -->
+
+</div>

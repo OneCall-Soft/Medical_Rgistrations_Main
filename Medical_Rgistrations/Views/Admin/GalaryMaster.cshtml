@@ -1,0 +1,103 @@
+﻿@model MyHtmlContent
+
+@{
+    ViewBag.Title = "About Template";
+}
+
+<link href="~/css/samples.css" rel="stylesheet" />
+<link href="~/css/neo.css" rel="stylesheet" />
+
+<form>
+    <textarea id="editor">
+    </textarea>
+    <button id="btnSetMaster" type="button" class="float-end btn btn btn-outline-primary mt-3 ">Update Template</button>
+
+    <div class="d-none htmlData">
+        @Model.HtmlData
+    </div>
+</form>
+
+
+
+@section Scripts{
+    <script src="~/ckeditor/ckeditor.js"></script>
+    <script src="~/ckeditor/sample.js"></script>
+
+    <script>
+
+
+       // var htmlData = $(".htmlData").html();
+
+
+        initSample();
+
+        CKEDITOR.instances.editor.config.height = '350';
+
+        //CKEDITOR.on("instanceReady", function (event) {
+        //    CKEDITOR.instances.editor.setData(htmlData);
+        //});
+            
+        $(document).ready(function () {
+
+
+            $("#btnSetMaster").on("click", function (e) {
+                var formData = new FormData();
+                //var htmlContent = editor.getData();
+                var htmlContent = CKEDITOR.instances.editor.getData();
+                htmlContent = btoa(htmlContent);
+                formData.append("htmlData", htmlContent);
+                formData.append("page", 'about');
+
+                if (htmlContent != undefined) {
+                    //var studentid = $(this).attr("data-");
+                    var url = '@Url.Action("SetMaster", "Admin")';
+                    $.ajax({
+                        type: 'POST',
+                        url: url,
+                        contentType: false,
+                        processData: false,
+                        cache: false,
+                        data: formData,
+                        success: function (response) {
+                            alert(response);
+                        },
+                        //error: errorCallback
+                    });
+                }
+            });
+        });
+    </script>
+}
+
+@section navigationbar{
+    <div class="container-fluid page__heading-container">
+        <div class="page__heading d-flex align-items-end">
+            <div class="flex">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Admin">Home</a></li>
+                        <li class="breadcrumb-item active"
+                            aria-current="page">About Master</li>
+                    </ol>
+                </nav>
+                <h1 class="m-0 mt-2">About Template</h1>
+            </div>
+            <div class="flatpickr-wrapper ml-3">
+                <div id="recent_orders_date"
+                     data-toggle="flatpickr"
+                     data-flatpickr-wrap="true"
+                     data-flatpickr-mode="range"
+                     data-flatpickr-alt-format="d/m/Y"
+                     data-flatpickr-date-format="d/m/Y">
+                    <a href="javascript:void(0)"
+                       class="link-date"
+                       data-toggle>13/03/2018 to 20/03/2018</a>
+                    <input class="flatpickr-hidden-input"
+                           type="hidden"
+                           value="13/03/2018 to 20/03/2018"
+                           data-input>
+                </div>
+            </div>
+        </div>
+    </div>
+    }

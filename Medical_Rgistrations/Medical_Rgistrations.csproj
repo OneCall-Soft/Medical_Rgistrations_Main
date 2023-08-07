@@ -1,0 +1,101 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net7.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Areas\Administrator\Views\AboutTemplate\**" />
+    <Compile Remove="Areas\Administrator\Views\ContactTemplate\**" />
+    <Compile Remove="Areas\Administrator\Views\CourseTemplate\**" />
+    <Compile Remove="Areas\Administrator\Views\Shared\**" />
+    <Compile Remove="Controllers\**" />
+    <Compile Remove="files\**" />
+    <Compile Remove="Views\AboutTemplate\**" />
+    <Compile Remove="Views\Admin\**" />
+    <Compile Remove="Views\ContactTemplate\**" />
+    <Compile Remove="Views\CourseTemplate\**" />
+    <Compile Remove="Views\Faculty\**" />
+    <Compile Remove="Views\Gallary\**" />
+    <Compile Remove="Views\Home\**" />
+    <Content Remove="Areas\Administrator\Views\AboutTemplate\**" />
+    <Content Remove="Areas\Administrator\Views\ContactTemplate\**" />
+    <Content Remove="Areas\Administrator\Views\CourseTemplate\**" />
+    <Content Remove="Areas\Administrator\Views\Shared\**" />
+    <Content Remove="Controllers\**" />
+    <Content Remove="files\**" />
+    <Content Remove="Views\AboutTemplate\**" />
+    <Content Remove="Views\Admin\**" />
+    <Content Remove="Views\ContactTemplate\**" />
+    <Content Remove="Views\CourseTemplate\**" />
+    <Content Remove="Views\Faculty\**" />
+    <Content Remove="Views\Gallary\**" />
+    <Content Remove="Views\Home\**" />
+    <EmbeddedResource Remove="Areas\Administrator\Views\AboutTemplate\**" />
+    <EmbeddedResource Remove="Areas\Administrator\Views\ContactTemplate\**" />
+    <EmbeddedResource Remove="Areas\Administrator\Views\CourseTemplate\**" />
+    <EmbeddedResource Remove="Areas\Administrator\Views\Shared\**" />
+    <EmbeddedResource Remove="Controllers\**" />
+    <EmbeddedResource Remove="files\**" />
+    <EmbeddedResource Remove="Views\AboutTemplate\**" />
+    <EmbeddedResource Remove="Views\Admin\**" />
+    <EmbeddedResource Remove="Views\ContactTemplate\**" />
+    <EmbeddedResource Remove="Views\CourseTemplate\**" />
+    <EmbeddedResource Remove="Views\Faculty\**" />
+    <EmbeddedResource Remove="Views\Gallary\**" />
+    <EmbeddedResource Remove="Views\Home\**" />
+    <None Remove="Areas\Administrator\Views\AboutTemplate\**" />
+    <None Remove="Areas\Administrator\Views\ContactTemplate\**" />
+    <None Remove="Areas\Administrator\Views\CourseTemplate\**" />
+    <None Remove="Areas\Administrator\Views\Shared\**" />
+    <None Remove="Controllers\**" />
+    <None Remove="files\**" />
+    <None Remove="Views\AboutTemplate\**" />
+    <None Remove="Views\Admin\**" />
+    <None Remove="Views\ContactTemplate\**" />
+    <None Remove="Views\CourseTemplate\**" />
+    <None Remove="Views\Faculty\**" />
+    <None Remove="Views\Gallary\**" />
+    <None Remove="Views\Home\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Remove="Areas\Administrator\Views\Admin\GalaryMaster.cshtml" />
+    <Content Remove="Areas\User\Views\Shared\_AdminLayout.cshtml" />
+    <Content Remove="Views\Shared\_Layout1.cshtml" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Areas\User\Views\Shared\_AdminLayout.cshtml.css" />
+    <None Remove="Views\Shared\_AdminLayout.cshtml.css" />
+    <None Remove="Views\Shared\_Layout1.cshtml.css" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DNTCaptcha.Core" Version="4.7.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Session" Version="2.2.0" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+    <PackageReference Include="RestSharp" Version="110.2.0" />
+    <PackageReference Include="System.Drawing.Common" Version="7.0.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Folder Include="wwwroot\faculties images\" />
+    <Folder Include="wwwroot\Image_Gallary\" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="Areas\Administrator\Views\Admin\AboutMaster.cshtml" />
+    <None Include="Areas\Administrator\Views\Admin\ContactMaster.cshtml" />
+    <None Include="Areas\Administrator\Views\Admin\CourseMaster.cshtml" />
+    <None Include="Areas\Administrator\Views\Admin\Dashboard.cshtml" />
+    <None Include="Areas\Administrator\Views\Admin\_ViewStart.cshtml" />
+  </ItemGroup>
+
+  <Target Name="PreBuild" BeforeTargets="PreBuildEvent">
+    <Exec Command="if exist &quot;$(TargetPath).locked&quot; del &quot;$(TargetPath).locked&quot;&#xD;&#xA;if exist &quot;$(TargetPath)&quot; if not exist &quot;$(TargetPath).locked&quot; move &quot;$(TargetPath)&quot; &quot;$(TargetPath).locked&quot;" />
+  </Target>
+
+</Project>

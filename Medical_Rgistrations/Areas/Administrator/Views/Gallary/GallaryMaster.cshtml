@@ -1,0 +1,209 @@
+﻿@model GallaryViewModel
+
+@{
+    ViewBag.Title = "Gallary Template";
+}
+
+
+<form asp-action="GallaryMaster" asp-asp-controller="Gallary" method="post" enctype="multipart/form-data">
+
+    <div class="card align-content-center p-3 m-5">
+        <div class="text-center h2">Image Gallary</div>
+        <div class="row p-5  ">
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label asp-for="groupName" class="form-label"></label>
+                    <select class="form-control" asp-for="groupName">
+                        <option value="">Select Image Group</option>
+                        @if (Model is not null)
+                            @if (Model.ImageGroups.Any())
+                            {
+                                foreach (var item in Model.ImageGroups)
+                                {
+                                    <option value="@item">@item</option>
+                                }
+                            }
+                    </select>
+                    <span class="text-danger" asp-validation-for="groupName"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label asp-for="imageFiles" class="form-label"></label>
+                    <input class="form-control" accept=".jpg,.png,.jpeg" asp-for="imageFiles">
+                    <span class="text-danger" asp-validation-for="imageFiles"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <button id="btnRegister" class="btn  btn-md btn-outline-primary float-right">Save</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</form>
+
+
+
+
+
+@section Scripts{
+    <script>
+        $(document).ready(function () {
+            UpdateFaculties();
+
+            alertMessage()
+
+
+
+            function alertMessage() {
+                var message = '@ViewBag.message';
+
+                if (message != undefined && message != "") {
+                    alert(message);
+                }
+            }
+
+
+            $(document).on('click', '.mastUpdateCheck', function (e) {
+
+                var checkValue = $(this).is(":checked");
+                var id = $(this).data('id');
+
+                var obj = {
+                    "Active": checkValue,
+                    "Id": id
+                };
+
+
+                $.ajax({
+                    type: "POST",
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8', // when we use .serialize() this generates the data in query string format. this needs the default contentType (default content type is: contentType: 'application/x-www-form-urlencoded; charset=UTF-8') so it is optional, you can remove it
+                    dataType: 'json',
+                    url: '@Url.Action("FacultyActive","Faculty")',
+                    data: obj,
+                    success: function (response) {
+                        if (response.success) {
+                            //alert(response.message);
+                            //UpdateFaculties();
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.message);
+                    },
+                    error: function (response) {
+                        alert(response.message);
+                    }
+                });
+
+            });
+
+
+            //$(document).on('click', 'a.deleteFaculty', function (e) {
+            //    e.preventDefault();
+
+            //    var confirmed = confirm("do you want to delete " + $(this).data("name") + " ?");
+            //    var IdToBeDeleted = $(this).attr("id");
+
+            //    if (confirmed) {
+            //        $.ajax({
+            //            type: "POST",
+            //            url: '@Url.Action("DeleteFaculty","Faculty")',
+            //            data: { "id": IdToBeDeleted },
+            //            success: function (response) {
+            //                if (response.success) {
+            //                    alert(response.message);
+            //                    UpdateFaculties();
+            //                }
+            //            },
+            //            failure: function (response) {
+            //                alert(response.message);
+            //            },
+            //            error: function (response) {
+            //                alert(response.message);
+            //            }
+            //        });
+            //    }
+
+            //});
+
+            function UpdateFaculties() {
+                $.ajax(
+                    {
+                        type: "GET",
+                        url: '@Url.Action("PopulateFaculties","Faculty")',
+                        dataType: "json",
+                        crossDomain: true,
+                        async: true,
+                        cache: false,
+                        success: function (data) {
+
+                            //$('#tblPendingHrResponse').find($('.trTblPendingHrResponse')).remove();
+                            if (data.success) {
+                                $('#facultyList').find("tbody tr").remove();
+                                var list = JSON.parse(data.data);
+
+                                $.each(list, function (index, value) {
+                                    random(value, index);
+                                });
+                            }
+                        },
+                        error: function (x, e) {
+                            //alert('There seems to be some problem while fetching records!');
+                        }
+
+                    }
+                );
+            }
+
+
+            function random(values, index) {
+                var Editurl = '@Url.Action("EditFaculty","Faculty")' + '?id=' + values.FacultyId;
+                //var Deleteurl = '@Url.Action("DeleteFaculty","Faculty")' + '?id=' + values.FacultyId;
+
+                var chk = $('<input type="checkbox" class=" ml-2 mastUpdateCheck" id="check' + index + '" data-id="' + values.FacultyId + '" />');
+
+                chk.attr('checked', values.Active);
+                //chk.prop('checked',values.Active);
+
+                //var actions = $('<a href=' + Editurl + ' data-id=' + values.FacultyId +
+                //    ' class="text-muted" > <i class="material-icons" > edit </i></a>' +
+                //    '<a data-name=' + values.Name + ' id=' + values.FacultyId +
+                //    ' class="text-muted deleteFaculty" > <i class="material-icons" ><span role="button">delete</span> </i></a > ');
+
+                var actions = $('<a href=' + Editurl + ' data-id=' + values.FacultyId +
+                    ' class="text-muted" > <i class="material-icons" > edit </i></a>');
+
+
+                var tr = $('<tr class=""></tr>');
+                $('<td></td>').append(chk).appendTo(tr);
+                $('<td></td>').text(values.Name).appendTo(tr);
+                $('<td></td>').text(values.Email).appendTo(tr);
+                $('<td></td>').text(values.InstituteName).appendTo(tr);
+                $('<td></td>').text(values.Description).appendTo(tr);
+                $('<td></td>').append(actions).appendTo(tr);
+
+
+                $('#facultyList').append(tr);
+
+            }
+
+        });
+    </script>
+}
+@section navigationbar{
+    <div class="container-fluid page__heading-container">
+        <div class="page__heading d-flex align-items-end">
+            <div class="flex">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Admin">Home</a></li>
+                        <li class="breadcrumb-item active"
+                            aria-current="page">Gallary Master</li>
+                    </ol>
+                </nav>
+                <h1 class="m-0 mt-2">New Gallary</h1>
+            </div>
+        </div>
+    </div>
+    }

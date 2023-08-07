@@ -1,0 +1,156 @@
+﻿@model IEnumerable<RegisterViewModels>
+
+@{
+    ViewBag.Title = "Admin Dashbaord";
+}
+
+
+@section Styles{
+    @*<link href="~/lib/datatables/css/datatables.bootstrap.min.css" rel="stylesheet" />*@
+    @*<link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" />*@
+}
+
+<div class="table-responsive border-bottom"
+     data-toggle="lists"
+     data-lists-values='["js-lists-values-employee-name"]'>
+
+    <div class="search-form search-form--light m-3">
+        <input type="text"
+               class="form-control search"
+               placeholder="Search">
+        <button class="btn"
+                type="button">
+            <i class="material-icons">search</i>
+        </button>
+    </div>
+
+
+
+    <table class="table mb-0 thead-border-top-0" id="registrationsList">
+        <thead>
+            <tr>
+                <th style="width: 150px;">Name</th>
+                <th style="width: 150px;">Institute Name</th>
+                <th style="width: 37px;">Email</th>
+                <th style="width: 80px;">Address</th>
+                <th style="width: 51px;">Qualification</th>
+                <th style="width: 24px;"></th>
+            </tr>
+        </thead>
+        <tbody class="list">
+        </tbody>
+    </table>
+</div>
+
+@section Scripts{
+<script>
+
+    $(document).ready(function () {
+        UpdateRegistrations();
+    });
+
+    function UpdateRegistrations() {
+        $.ajax(
+            {
+                type: "GET",
+                url: '@Url.Action("GetDashboardTable","Admin")',
+                dataType: "json",
+                crossDomain: true,
+                async: true,
+                cache: false,
+                success: function (data) {
+
+                    //$('#tblPendingHrResponse').find($('.trTblPendingHrResponse')).remove();
+                    if (data.success) {
+                        $('#registrationsList').find("tbody tr").remove();
+                        var list = JSON.parse(data.data);
+
+                        $.each(list, function (index, value) {
+                            random(value, index);
+                        });
+                    }
+                },
+                error: function (x, e) {
+                    //alert('There seems to be some problem while fetching records!');
+                }
+
+            }
+        );
+    }
+
+
+    function random(values, index) {
+        var Deleteurl = '@Url.Action("DeleteRegistrations","Admin")' + '?id=' + values.RegistrationId;
+        //var Deleteurl = '@Url.Action("DeleteFaculty","Admin")' + '?id=' + values.FacultyId;
+
+        var chk = $('<input type="checkbox" class=" ml-2 mastUpdateCheck" id="check' + index + '" data-id="' + values.RegistrationId + '" />');
+
+        chk.attr('checked', values.Active);
+        //chk.prop('checked',values.Active);
+
+        var actions = $('<a href=' + Deleteurl + ' data-id=' + values.RegistrationId +
+            ' class="text-muted" > <i class="material-icons" > edit </i></a>' +
+            '<a data-name=' + values.Name + ' id=' + values.FacultyId +
+            ' class="text-muted deleteFaculty" > <i class="material-icons" ><span role="button">delete</span> </i></a > ');
+
+
+        var tr = $('<tr class=""></tr>');
+        $('<td></td>').append(chk).appendTo(tr);
+        $('<td></td>').text(values.Name).appendTo(tr);
+        $('<td></td>').text(values.Email).appendTo(tr);
+        $('<td></td>').text(values.InstituteName).appendTo(tr);
+        $('<td></td>').text(values.Description).appendTo(tr);
+        $('<td></td>').append(actions).appendTo(tr);
+
+
+
+        //var tr = '<tr class="">' +
+        //    '<td>' + $(chk).html() + '</td>' +
+        //    '<td>' + values.Name + '</td>' +
+        //    '<td>' + values.Email + '</td>' +
+        //    '<td>' + values.InstituteName + '</td>' +
+        //    '<td>' + values.Description + '</td>' +
+        //    '<td><a href=' + Editurl + ' data-id=' + values.FacultyId +
+        //    ' class="text-muted" > <i class="material-icons" > edit </i></a>' +
+        //    '<a data-name=' + values.Name + ' id=' + values.FacultyId +
+        //    ' class="text-muted deleteFaculty" > <i class="material-icons" ><span role="button">delete</span> </i></a > ' +
+        //    '</td></tr>';
+
+        $('#registrationsList').append(tr);
+
+    }
+
+</script>
+}
+@section navigationbar{
+    <div class="container-fluid page__heading-container">
+        <div class="page__heading d-flex align-items-end">
+            <div class="flex">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a asp-action="Dashboard" asp-controller="Admin">Home</a></li>
+                        <li class="breadcrumb-item active"
+                            aria-current="page">Dashboard</li>
+                    </ol>
+                </nav>
+                <h1 class="m-0">Dashboard</h1>
+            </div>
+            <div class="flatpickr-wrapper ml-3">
+                <div id="recent_orders_date"
+                     data-toggle="flatpickr"
+                     data-flatpickr-wrap="true"
+                     data-flatpickr-mode="range"
+                     data-flatpickr-alt-format="d/m/Y"
+                     data-flatpickr-date-format="d/m/Y">
+                    <a href="javascript:void(0)"
+                       class="link-date"
+                       data-toggle>13/03/2018 to 20/03/2018</a>
+                    <input class="flatpickr-hidden-input"
+                           type="hidden"
+                           value="13/03/2018 to 20/03/2018"
+                           data-input>
+                </div>
+            </div>
+        </div>
+    </div>
+    }

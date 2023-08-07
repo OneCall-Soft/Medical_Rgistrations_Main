@@ -1,0 +1,189 @@
+﻿<!DOCTYPE html>
+<html lang="en"
+      dir="ltr">
+
+
+<!-- Mirrored from demo.frontted.com/flowdash/120/fluid-dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 29 May 2023 06:38:12 GMT -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible"
+          content="IE=edge">
+    <meta name="viewport"
+          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <title>@ViewData["Title"] - Medical College</title>
+    
+   
+    <meta content="width=device-width, initial-scale=1.0" name="viewport">
+    <meta content="Free HTML Templates" name="keywords">
+    <meta content="Free HTML Templates" name="description">
+
+    <!-- Favicon -->
+    <link href="~/user/img/favicon.html" rel="icon">
+
+    <!-- Google Web Fonts -->
+    <link rel="preconnect" href="https://fonts.gstatic.com/">
+    <link href="https://fonts.googleapis.com/css2?family=Jost:wght@500;600;700&amp;family=Open+Sans:wght@400;600&amp;display=swap" rel="stylesheet">
+
+    <!-- Icon Font Stylesheet -->
+    <link href="~/user/css/all.min.css" rel="stylesheet">
+    <link href="~/user/css/bootstrap-icons.css" rel="stylesheet">
+
+    <!-- Libraries Stylesheet -->
+    <link href="~/user/lib/owlcarousel/assets/owl.carousel.min.css" rel="stylesheet">
+    <link href="~/user/lib/animate/animate.min.css" rel="stylesheet">
+    <link href="~/user/lib/tempusdominus/css/tempusdominus-bootstrap-4.min.css" rel="stylesheet" />
+    <link href="~/user/lib/twentytwenty/twentytwenty.css" rel="stylesheet" />
+
+    <!-- Customized Bootstrap Stylesheet -->
+    <link href="~/user/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Template Stylesheet -->
+    <link href="~/user/css/style.css" rel="stylesheet">
+    @RenderSection("Styles",false)
+</head>
+
+<body class="layout-fluid layout-sticky-subnav">
+
+
+    <!-- Spinner Start -->
+    <div id="spinner" class="show bg-white position-fixed translate-middle w-100 vh-100 top-50 start-50 d-flex align-items-center justify-content-center">
+        <div class="spinner-grow text-primary m-1" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-dark m-1" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+        <div class="spinner-grow text-secondary m-1" role="status">
+            <span class="sr-only">Loading...</span>
+        </div>
+    </div>
+    <!-- Spinner End -->
+    <!-- Navbar Start -->
+    <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
+        <a href="index-2.html" class="navbar-brand p-0">
+            <div class="m-0 logodiv">
+                <img src="~/user/img/Logo.png" />
+            </div>
+        </a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarCollapse">
+            <div class="navbar-nav ms-auto py-0">
+                <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active">Home</a>
+                <a asp-action="AboutUs" asp-controller="Home" class="nav-item nav-link">About</a>
+                <a asp-action="Course" asp-controller="Home" class="nav-item nav-link">Course</a>
+                <a asp-action="Faculty" asp-controller="Home" class="nav-item nav-link">Faculty</a>
+                <a asp-action="ContactUs" asp-controller="Home" class="nav-item nav-link">Contact</a>
+            </div>
+            <!--<button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>-->
+            <a asp-action="Registration" asp-area="User" asp-controller="Home" class="btn btn-primary py-2 px-4 ms-3">Apply Now</a>
+        </div>
+    </nav>
+    <!-- Navbar End -->
+    <!-- Full Screen Search Start -->
+    <div class="modal fade" id="searchModal" tabindex="-1">
+        <div class="modal-dialog modal-fullscreen">
+            <div class="modal-content" style="background: rgba(9, 30, 62, .7);">
+                <div class="modal-header border-0">
+                    <button type="button" class="btn bg-white btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex align-items-center justify-content-center">
+                    <div class="input-group" style="max-width: 600px;">
+                        <input type="text" class="form-control bg-transparent border-primary p-3" placeholder="Type search keyword">
+                        <button class="btn btn-primary px-4"><i class="bi bi-search"></i></button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Full Screen Search End -->
+
+    @RenderBody()
+
+    <footer class="clearfix float-left w-100 clearfix">
+        <section class="footersection1 py-4 clearfix">
+            <div class="container">
+                <div class="row">
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <div class="footerbox">
+                            <h2>Get In Touch</h2>
+                            <!--<h5>Dr. Manu Sikarwar</h5>
+                            <h6>Project Director</h6>-->
+
+                            <p><span class="ti-map-alt footerIcon"></span>Sawai Man Singh Medical, College New Sms Campus Rd JNL Marg Jaipur 302004 </p>
+                            <p>
+                                <span class="ti-headphone footerIcon"></span> 0141-2560291
+                            </p>
+                            <p><span class="ti-email footerIcon"></span> director-dst@rajasthan.gov.in</p>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <div class="footerbox">
+                            <h2>Quick Links</h2>
+                            <ul>
+                                <li><a href="#">Sampark/CM Helpline-181</a></li>
+                                <li><a href="#">Rajasthan State Portal</a></li>
+                                <li><a href="#">DM &amp; HS(Rajswasthya)</a></li>
+                                <li><a href="#">Medical Council of India</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <div class="footerbox">
+                            <h2>Important Links</h2>
+                            <ul>
+                                <li><a href="#">RMSC</a></li>
+                                <li><a href="#">Jan Aadhar Yojna</a></li>
+                                <li><a href="#">Aadhaar</a></li>
+                                <li><a href="#">Rajasthan Tourism</a></li>
+                                <li><a href="#">Essential Drug List - RMSCL</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="col-lg-3 col-md-6 col-12">
+                        <div class="footerbox">
+                            <h2>Vistior &amp; Updated Date</h2>
+                            <div class="vistorbox">
+                                <p>You are Vistior No : </p>
+                                <span>19950</span>
+                            </div>
+                            <div class="vistorbox">
+                                <p>Last Updated Date : </p>
+                                <span>07/12/2021</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+        <section class="footersection2 text-center">
+            <div class="container-fluid">
+                <p>Website Developed &amp; Managed by <a href="">RISL TEAM</a> And Data Maintained By SMS Medical College</p>
+            </div>
+        </section>
+    </footer>
+    <!-- Back to Top -->
+    <a href="#" class="btn btn-lg btn-primary btn-lg-square rounded back-to-top"><i class="bi bi-arrow-up"></i></a>
+
+    <!-- JavaScript Libraries -->
+    <script src="~/user/js/jquery-3.4.1.min.js"></script>
+    <script src="~/user/js/bootstrap.bundle.min.js"></script>
+    <script src="~/user/lib/wow/wow.min.js"></script>
+    <script src="~/user/lib/easing/easing.min.js"></script>
+    <script src="~/user/lib/waypoints/waypoints.min.js"></script>
+    <script src="~/user/lib/owlcarousel/owl.carousel.min.js"></script>
+    <script src="~/user/lib/tempusdominus/js/moment.min.js"></script>
+    <script src="~/user/lib/tempusdominus/js/moment-timezone.min.js"></script>
+    <script src="~/user/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
+    <script src="~/user/lib/twentytwenty/jquery.event.move.js"></script>
+    <script src="~/user/lib/twentytwenty/jquery.twentytwenty.js"></script>
+    <script src="~/lib/jquery-validation/dist/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <!-- Template Javascript -->
+    <script src="~/user/js/main.js"></script>
+
+    @RenderSection("Scripts",false)
+</body>
+</html>
+

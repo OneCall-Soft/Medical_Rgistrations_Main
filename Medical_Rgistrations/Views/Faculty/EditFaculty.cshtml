@@ -1,0 +1,90 @@
+﻿@model FacultyEditViewModel
+
+@{
+    ViewBag.Title = "Edit Faculty";
+    var profileImages = "/faculties images/";
+    var defaultImage = "sample.png";
+    string? image = @profileImages + Model.ProfileName ?? defaultImage;
+}
+
+
+<form asp-action="UpdateFaculty" method="post" asp-asp-controller="Admin" method="post" enctype="multipart/form-data">
+
+    <div class="card align-content-center p-3 m-5">
+        <div class="text-center h2">Faculty Form</div>
+        <div class="row p-5  ">
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <input type="hidden" asp-for="FacultyId" />
+                    <input type="hidden" asp-for="ProfileName" />
+
+                    <label asp-for="Name" class="form-label"></label>
+                    <input class="form-control" asp-for="Name">
+                    <span class="text-danger" asp-validation-for="Name"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="InstituteName" class="form-label"></label>
+                    <input class="form-control" asp-for="InstituteName" />
+                    <span class="text-danger" asp-validation-for="InstituteName"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="Email" class="form-label"></label>
+                    <input class="form-control" asp-for="Email">
+                    <span class="text-danger" asp-validation-for="Email"></span>
+                </div>
+            </div>
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <label asp-for="Description" class="form-label"></label>
+                    <textarea class="form-control" asp-for="Description" style="resize:none"></textarea>
+                    <span class="text-danger" asp-validation-for="Description"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="ProfileImg" class="form-label"></label>
+                    <input class="form-control" accept=".jpg,.png,.jpeg" asp-for="ProfileImg">
+                    <span class="text-danger" asp-validation-for="ProfileImg"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="">
+                    <div class="form-check mr-1">
+                        <input type="checkbox" asp-for="Active" />
+                        <label class="" asp-for="Active"></label>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-12">
+                <div class="mb-3">
+                    <img src="@image" class="rounded-1 m-1" asp-append-version="true" width="250" height="250" />
+                </div>
+            </div>
+
+            <div class="mb-3">
+                <button id="btnRegister" class="btn  btn-md btn-outline-primary float-end m-1">Update Faculty</button>
+                <a asp-action="FacultyMaster" asp-controller="Faculty" class="btn  btn-md btn-outline-primary float-end m-1">Cancel</a>
+            </div>
+        </div>
+    </div>
+
+</form>
+
+@section navigationbar{
+    <div class="flex">
+        <nav aria-label="breadcrumb">
+            <ol class="breadcrumb mb-0">
+                <li class="breadcrumb-item"><a asp-controller="Home" asp-action="Index">Home</a></li>
+                <li class="breadcrumb-item active"
+                    aria-current="page">Update Faculty</li>
+            </ol>
+        </nav>
+
+        <h1 class="m-0">Update Faculty</h1>
+    </div>
+    }
