@@ -62,7 +62,7 @@
     <nav class="navbar navbar-expand-lg bg-white navbar-light shadow-sm px-5 py-3 py-lg-0">
         <a href="index-2.html" class="navbar-brand p-0">
             <div class="m-0 logodiv">
-                <img src="~/user/img/Logo.png" />
+                <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active"><img src="~/user/img/Logo.png" /></a>
             </div>
         </a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarCollapse">
@@ -70,14 +70,16 @@
         </button>
         <div class="collapse navbar-collapse" id="navbarCollapse">
             <div class="navbar-nav ms-auto py-0">
-                <a asp-action="Index" asp-controller="Home" class="nav-item nav-link active">Home</a>
-                <a asp-action="AboutUs" asp-controller="Home" class="nav-item nav-link">About</a>
                 <a asp-action="Course" asp-controller="Home" class="nav-item nav-link">Course</a>
-                <a asp-action="Faculty" asp-controller="Home" class="nav-item nav-link">Faculty</a>
-                <a asp-action="ContactUs" asp-controller="Home" class="nav-item nav-link">Contact</a>
+                <a asp-action="Faculty" asp-controller="Home" class="nav-item nav-link">Our Team</a>
+                <a asp-action="Faculty" asp-controller="Home" class="nav-item nav-link">Resources</a>
+                <a asp-action="Faculty" asp-controller="Home" class="nav-item nav-link">Testimonial</a>
+                <a asp-action="ContactUs" asp-controller="Home" class="nav-item nav-link">Contact us</a>
+                <a asp-action="Faculty" asp-controller="Home" class="nav-item nav-link">Basket</a>
+                <a asp-action="AboutUs" asp-controller="Home" class="nav-item nav-link">About</a>
             </div>
             <!--<button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>-->
-            <a asp-action="Registraion" asp-controller="Home" class="btn btn-primary py-2 px-4 ms-3">Apply Now</a>
+            <a asp-action="Registration" asp-controller="Home" class="btn btn-primary py-2 px-4 ms-3">Apply Now</a>
         </div>
     </nav>
     <!-- Navbar End -->

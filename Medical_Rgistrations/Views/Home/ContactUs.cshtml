@@ -9,7 +9,7 @@
     <div class="row py-3">
         <div class="col-12 text-center">
             <h1 class="display-3 text-white animated zoomIn">Contact</h1>
-            <a href="#" class="h4 text-white">Home</a>
+            <a asp-action="Index" asp-controller="Home" class="h4 text-white">Home</a>
             <i class="far fa-circle text-white px-2"></i>
             <a href="#" class="h4 text-white">Contact</a>
         </div>
@@ -59,6 +59,9 @@
                     <div class="row g-3">
                         <div class="col-12">
                             <input type="text" class="form-control border-0 bg-light px-4" placeholder="Your Name" style="height: 55px;">
+                        </div>
+                        <div class="col-12">
+                            <input type="tel" class="form-control border-0 bg-light px-4" placeholder="Your PhoneNumber" style="height: 55px;">
                         </div>
                         <div class="col-12">
                             <input type="email" class="form-control border-0 bg-light px-4" placeholder="Your Email" style="height: 55px;">
