@@ -62,6 +62,7 @@ namespace Medical_Rgistrations.Areas.Admin.Controllers
             return apiResponse;
         }
 
+
         public IActionResult Dashboard()
         {
             IEnumerable<RegisterViewModels> model = new List<RegisterViewModels>();
@@ -78,7 +79,7 @@ namespace Medical_Rgistrations.Areas.Admin.Controllers
         }
 
 
-        [Route("Admin-DS-Contact")]
+        [Route("Admin-Contact")]
         [HttpGet]
         public async Task<IActionResult> ContactMaster()
         {
@@ -94,7 +95,7 @@ namespace Medical_Rgistrations.Areas.Admin.Controllers
             }
             return View();
         }
-        [Route("Admin-DS-About")]
+        [Route("Admin-About")]
         [HttpGet]
         public async Task<IActionResult> AboutMaster()
         {
@@ -112,7 +113,7 @@ namespace Medical_Rgistrations.Areas.Admin.Controllers
             return View();
         }
 
-        [Route("Admin-DS-Course")]
+        [Route("Admin-Course")]
         [HttpGet]
         public async Task<IActionResult> CourseMaster()
         {
@@ -129,6 +130,61 @@ namespace Medical_Rgistrations.Areas.Admin.Controllers
             return View();
         }
 
+        [Route("Admin-Links")]
+        [HttpGet]
+        public async Task<IActionResult> LinkMaster()
+        {
+            try
+            {
+                ViewBag.message = Message;
+
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            return View();
+        }
+
+        [Route("Admin-SetLinks")]
+        [HttpPost]
+        public async Task<ApiResponse> AddLinks(DashboardLinks links)
+        {
+            apiResponse = new ApiResponse();
+            try
+            {
+
+                RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
+
+                restsharpClient.SetBasicAuthenticator(api_username, api_password);
+
+                var restClient = await restsharpClient.GetClientInstance("/Template/SetLinkTemplate");
+
+                restsharpClient._request.AddJsonBody(JsonConvert.SerializeObject(links));
+
+                var response = await restClient.PostAsync(restsharpClient._request);
+
+                if (response.IsSuccessStatusCode)
+                {
+
+                    if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
+                    {
+                        apiResponse = new ApiResponse { Success = true, Message = $"{links.Position} Link have been saved." };
+
+                    }
+                    else if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
+                    }
+                }
+
+            }
+            catch (Exception e)
+            {
+                throw;
+            }
+            return apiResponse;
+        }
         [HttpGet]
         public async Task<IActionResult> Template()
         {

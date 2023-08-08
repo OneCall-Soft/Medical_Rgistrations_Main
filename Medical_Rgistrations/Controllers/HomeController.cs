@@ -74,6 +74,34 @@ namespace Medical_Rgistrations.Controllers
 
                 }
 
+
+                restsharpClient = new RestsharpClient(apiBaseUrl);
+
+                restsharpClient.SetBasicAuthenticator(api_username, api_password);
+
+                restClient = await restsharpClient.GetClientInstance("/Template/GetDashboardLinks");
+
+                response = await restClient.PostAsync(restsharpClient._request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
+
+                    if (apiResponse.Success)
+                    {
+                        var dashboardLinks = JsonConvert.DeserializeObject<DashboardLinkView>(apiResponse.Data);
+
+                        if (dashboardLinks != null)
+                        {
+                            model.ImportentNotification = dashboardLinks.NotificationLink;
+                            model.DownloadLinks = dashboardLinks.DownloadLink;
+                            model.Footer1 = dashboardLinks.FooterLink1;
+                            model.Footer2 = dashboardLinks.FooterLink2;
+                        }
+                    }
+
+                }
+
             }
             catch (Exception)
             {
