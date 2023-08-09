@@ -1,5 +1,6 @@
 
 using DNTCaptcha.Core;
+using Medical_Rgistrations.Controllers;
 using Microsoft.Extensions.Options;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -10,7 +11,10 @@ var _env = builder.Environment;
 builder.Services.AddRazorPages();
 builder.Services.AddSession((o) => o.IdleTimeout = TimeSpan.FromMinutes(30));
 builder.Services.AddMvc((o) => o.EnableEndpointRouting = false);
-    //AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
+
+builder.Services.AddSingleton<HomeController>();
+
+//AddJsonOptions(options => options.JsonSerializerOptions.PropertyNamingPolicy = null);
 
 builder.Services.AddDNTCaptcha((options) =>
 {
@@ -63,7 +67,7 @@ app.UseMvc((o) =>
         name: "areaRoute",
         template: "{area:exists}/{controller=Home}/{action=Index}");
     o.MapRoute("default", "{controller=Home}/{action=Index}/{id?}");
-    
+
 
 });
 //app.UseMvc();

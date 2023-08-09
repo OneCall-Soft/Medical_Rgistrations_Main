@@ -26,6 +26,7 @@ namespace Medical_Rgistrations.Controllers
             this._Config = config;
         }
 
+        [Route("Admin-Gallery")]
         public async Task<IActionResult> GallaryMaster()
         {
             var model = new GallaryViewModel();

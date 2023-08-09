@@ -8,74 +8,83 @@
 <link href="~/css/neo.css" rel="stylesheet" />
 
 <form>
+    <div class="card card-form w-100">
+        <div class="card-form__body p-3">
+            <div class="row no-gutters">
 
-    <div class="row">
-        <div class="col-6 py-3">
-            <label asp-for="Page" class="form-label h6"></label>
-            <select class="form-control" asp-for="Page">
-                <option value="">Select Template Page</option>
-                <option value="about">About</option>
-                <option value="contact">Contact</option>
-                <option value="course">Course</option>
-                <option value="home">Home</option>
+                <div class="col-6 p-3">
+                    <label asp-for="Page" class="form-label h6"></label>
+                    <select class="form-control" asp-for="Page">
+                        <option value="">Select Template Type</option>
+                        <option value="about">About</option>
+                        <option value="contact">Contact</option>
+                        <option value="course">Course</option>
+                        <option value="home">Home</option>
+                        <option value="tnc">Tearms & Condition</option>
+                        <option value="getintouch">Get In Touch</option>
 
-                @*@if (Model is not null)
-                @if (Model.PagesGroup.Any())
-                {
-                foreach (var item in Model.PagesGroup)
-                {
-                <option value="@item">@item</option>
-                }
-                }*@
-            </select>
-            <span class="text-danger" asp-validation-for="Page"></span>
-        </div>
-        <div class="col-6 py-3">
-            <input type="hidden" id="hidHtmlData" />
-            <input type="hidden" id="hidId" />
-            <label for="TemplateName" class="h6">Template Name</label>
-            <input class="form-control mb-3 " type="text" required name="TemplateName" id="TemplateName" placeholder="Template Name" />
-            <span class="text-danger d-none">Template Name is required</span>
-        </div>
-        <div class="col-4">
-            @*<div class="form-check">
-            <input class="form-check-input " type="checkbox" asp-for="Active">
-            <label class="form-check-label h6" asp-for="Active"></label>
-            </div>*@
+                        @*@if (Model is not null)
+                        @if (Model.PagesGroup.Any())
+                        {
+                        foreach (var item in Model.PagesGroup)
+                        {
+                        <option value="@item">@item</option>
+                        }
+                        }*@
+                    </select>
+                    <span class="text-danger" asp-validation-for="Page"></span>
+                </div>
+                <div class="col-6 p-3">
+                    <input type="hidden" id="hidHtmlData" />
+                    <input type="hidden" id="hidId" />
+                    <label for="TemplateName" class="h6">Template Name</label>
+                    <input class="form-control mb-3 " type="text" required name="TemplateName" id="TemplateName" placeholder="Template Name" />
+                    <span class="text-danger d-none">Template Name is required</span>
+                </div>
+                <div class="col-4">
+                    @*<div class="form-check">
+                    <input class="form-check-input " type="checkbox" asp-for="Active">
+                    <label class="form-check-label h6" asp-for="Active"></label>
+                    </div>*@
 
-            <div class="checkbox-inline pl-3">
-                @*<label class="checkbox-inline">
-                <input type="checkbox" value="">  Adult News
-                </label>
-                *@
-                <div class="form-check ">
-                    <label class="checkbox-inline">
-                        <input class="form-check-input " type="checkbox" asp-for="Active"> Active
-                    </label>
+                    <div class="checkbox-inline pl-3">
+                        @*<label class="checkbox-inline">
+                        <input type="checkbox" value="">  Adult News
+                        </label>
+                        *@
+                        <div class="form-check pl-3 ">
+                            <label class="checkbox-inline">
+                                <input class="form-check-input " type="checkbox" asp-for="Active"> Active
+                            </label>
+                        </div>
+                    </div>
                 </div>
             </div>
+            <div id="editor">
+            </div>
+            <button id="btnSetMaster" type="submit" class="float-right btn btn btn-outline-primary m-3">Save Template</button>
+            <button id="btnUpdateMaster" type="submit" class="float-right btn btn btn-outline-primary m-3 d-none">Update Template</button>
+            <button id="btnReset" type="reset" class="float-right btn btn btn-outline-primary m-3">Reset Template</button>
+
         </div>
     </div>
-    <div id="editor">
-    </div>
-    <button id="btnSetMaster" type="submit" class="float-right btn btn btn-outline-primary m-3">Save Template</button>
-    <button id="btnUpdateMaster" type="submit" class="float-right btn btn btn-outline-primary m-3 d-none">Update Template</button>
-    <button id="btnReset" type="reset" class="float-right btn btn btn-outline-primary m-3">Reset Template</button>
 </form>
 
-<div class="d-none" id="dcontactList">
+
+
+<div class="d-none" id="daboutList">
     <div class="row mt-5">
         <div class="col-md-12 ">
             <div class="card card-form">
                 <div class="row no-gutters">
                     <div class="col-lg-12 card-form__body">
                         <div class="table-responsive ">
-                            <table class="table mb-0 thead-border-top-0 mt-2" id="tcontactList">
+                            <table class="table mb-0 thead-border-top-0 mt-4 w-100" id="taboutList">
                                 <thead>
                                     <tr>
-                                        <th class="d-none">Active</th>
-                                        <th style="width: 150px;">Template</th>
-                                        <th style="width: 24px;"></th>
+                                        <th class="w-25">Active</th>
+                                        <th class="w-75">Template</th>
+                                        <th class="w-25"></th>
                                     </tr>
                                 </thead>
                                 <tbody class="list">
@@ -88,85 +97,6 @@
         </div>
     </div>
 </div>
-
-
-<div class="d-none " id="daboutList">
-    <div class="row mt-5">
-        <div class="col-md-12 ">
-            <div class="card card-form">
-                <div class="row no-gutters">
-                    <div class="col-lg-12 card-form__body">
-                        <div class="table-responsive ">
-                            <table class="table mb-0 thead-border-top-0 mt-2" id="taboutList">
-                                <thead>
-                                    <tr>
-                                        <th class="d-none">Active</th>
-                                        <th style="width: 150px;">Template</th>
-                                        <th style="width: 24px;"></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="list">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-<div class="d-none " id="dhomeList">
-    <div class="row mt-5">
-        <div class="col-md-12 ">
-            <div class="card card-form">
-                <div class="row no-gutters">
-                    <div class="col-lg-12 card-form__body">
-                        <div class="table-responsive ">
-                            <table class="table mb-0 thead-border-top-0 mt-2" id="thomeList">
-                                <thead>
-                                    <tr>
-                                        <th class="d-none">Active</th>
-                                        <th style="width: 150px;">Template</th>
-                                        <th style="width: 24px;"></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="list">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-<div class="d-none " id="dcoursetList">
-    <div class="row mt-5">
-        <div class="col-md-12 ">
-            <div class="card card-form">
-                <div class="row no-gutters">
-                    <div class="col-lg-12 card-form__body">
-                        <div class="table-responsive ">
-                            <table class="table mb-0 thead-border-top-0 mt-2" id="tcourseList">
-                                <thead>
-                                    <tr>
-                                        <th class="d-none">Active</th>
-                                        <th style="width: 150px;">Template</th>
-                                        <th style="width: 24px;"></th>
-                                    </tr>
-                                </thead>
-                                <tbody class="list">
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
 
 @section Scripts{
     <script src="~/ckeditor/ckeditor.js"></script>
@@ -197,7 +127,6 @@
 
             $("#btnReset").click(function () {
                 resetPage();
-
             });
 
             $("#Page").change(function () {
@@ -266,6 +195,44 @@
                 });
             });
 
+            $(document).on('click', '.mastUpdateCheck', function (e) {
+
+                var htmlData = $(this).parent().parent().find('.htmlContent').html();
+                var active = $(this).is(":checked");
+                var templateName = $(this).data("templatename");
+                var templatePage = $("#Page").val().toLowerCase();
+                var id = $(this).data("id");
+
+
+                var requestObject = {
+                    "Id": id,
+                    "TemplateName": templateName,
+                    "Active": active,
+                    "htmlData": htmlData,
+                    "Page": templatePage
+                };
+
+                var url = '@Url.Action("UpdateTemplate", "Admin")';
+                $.ajax({
+                    type: "POST",
+                    dataType: 'json',
+                    url: url,
+                    cache: false,
+                    data: { 'template': requestObject },
+                    success: function (response) {
+                        if (response.success) {
+                            getEditorData();
+                        }
+                    },
+                    failure: function (response) {
+                        alert(response.message);
+                    },
+                    error: function (response) {
+                        alert(response.message);
+                    }
+                });
+
+            });
 
 
             $(document).on('click', '.editTemplate', function (e) {
@@ -353,7 +320,8 @@
             var Editurl = '@Url.Action("EditMaster","Admin")' + '?id=' + values.Id;
             var Deleteurl = '@Url.Action("EditMaster","Admin")' + '?id=' + values.Id;
 
-            var chk = $('<input type="checkbox" class=" ml-2 mastUpdateCheck" id="check' + index + '" data-id="' + values.Id + '" />');
+            var chk = $('<input type="checkbox" class=" ml-2 mastUpdateCheck" id="check' + index + '" data-id="' + values.Id + '"' +
+                ' data-templateName ="' + values.TemplateName + '" />');
 
             chk.attr('checked', values.Active);
 
@@ -366,7 +334,7 @@
                 ' class="text-muted editTemplate" > <i class="material-icons" > edit </i></a>');
 
             var tr = $('<tr class=""></tr>');
-            $('<td class="d-none"></td>').append(chk).appendTo(tr);
+            $('<td class=""></td>').append(chk).appendTo(tr);
             $('<td></td>').text(values.TemplateName).appendTo(tr);
             $('<td></td>').addClass('d-none ').append('<div class="htmlContent"> ' + values.HtmlData + ' </div>').appendTo(tr);
             $('<td></td>').append(actions).appendTo(tr);
@@ -377,35 +345,37 @@
         function renderList(tr) {
 
             var page = $("#Page").val().toLowerCase();
+            $("#daboutList").removeClass("d-none");
+            $('#taboutList').append(tr);
 
-            switch (page) {
-                case 'about': $("#daboutList").removeClass("d-none");
-                    $("#dcontactList").addClass("d-none");
-                    $("#dcoursetList").addClass("d-none");
-                    $("#dhomeList").addClass("d-none");
-                    $('#taboutList').append(tr);
-                    break;
-                case 'contact': $("#dcontactList").removeClass("d-none");
-                    $("#daboutList").addClass("d-none");
-                    $("#dcoursetList").addClass("d-none");
-                    $("#dhomeList").addClass("d-none");
-                    $('#tcontactList').append(tr);
-                    break;
-                case 'course': $("#dcoursetList").removeClass("d-none");
-                    $("#daboutList").addClass("d-none");
-                    $("#dhomeList").addClass("d-none");
-                    $("#dcontactList").addClass("d-none");
-                    $('#tcourseList').append(tr);
-                    break;
-                case 'home': $("#dhomeList").removeClass("d-none");
-                    $("#daboutList").addClass("d-none");
-                    $("#dcoursetList").addClass("d-none");
-                    $("#dcontactList").addClass("d-none");
-                    $('#thomeList').append(tr);
-                    break;
-                default:
-                    break;
-            }
+            //switch (page) {
+            //    case 'about': $("#daboutList").removeClass("d-none");
+            //        $("#dcontactList").addClass("d-none");
+            //        $("#dcoursetList").addClass("d-none");
+            //        $("#dhomeList").addClass("d-none");
+            //        $('#taboutList').append(tr);
+            //        break;
+            //    case 'contact': $("#dcontactList").removeClass("d-none");
+            //        $("#daboutList").addClass("d-none");
+            //        $("#dcoursetList").addClass("d-none");
+            //        $("#dhomeList").addClass("d-none");
+            //        $('#tcontactList').append(tr);
+            //        break;
+            //    case 'course': $("#dcoursetList").removeClass("d-none");
+            //        $("#daboutList").addClass("d-none");
+            //        $("#dhomeList").addClass("d-none");
+            //        $("#dcontactList").addClass("d-none");
+            //        $('#tcourseList').append(tr);
+            //        break;
+            //    case 'home': $("#dhomeList").removeClass("d-none");
+            //        $("#daboutList").addClass("d-none");
+            //        $("#dcoursetList").addClass("d-none");
+            //        $("#dcontactList").addClass("d-none");
+            //        $('#thomeList').append(tr);
+            //        break;
+            //    default:
+            //        break;
+            //}
         }
 
         function getEditorData() {
@@ -422,9 +392,9 @@
                     var res = JSON.parse(response.data);
 
                     $('#taboutList').find("tbody tr").remove();
-                    $('#tcourseList').find("tbody tr").remove();
-                    $('#thomeList').find("tbody tr").remove();
-                    $('#tcontactList').find("tbody tr").remove();
+                    //$('#tcourseList').find("tbody tr").remove();
+                    //$('#thomeList').find("tbody tr").remove();
+                    //$('#tcontactList').find("tbody tr").remove();
 
                     $.each(res, function (index, value) {
                         random(value, index);
