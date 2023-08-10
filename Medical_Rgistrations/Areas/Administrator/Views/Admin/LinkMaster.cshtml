@@ -19,6 +19,7 @@
             <div class="col-6 p-3">
                 <label for="templateName" class="form-label h6">Template Name</label>
                 <input type="text" id="templateName" class="form-control" />
+                <input type="hidden" id="id" />
             </div>
             <div class="col-md-12">
                 <div class="checkbox-inline pl-3">
@@ -49,9 +50,19 @@
             </table>
 
 
+           
+
             <button class="btn btn-md btn-primary float-right m-2"
                     id="submitLinks" type="button">
                 Submit
+            </button>
+            <button class="btn btn-md btn-primary float-right m-2 d-none"
+                    id="updateLinks" type="button">
+                Update
+            </button>
+            <button class="btn btn-md btn-primary float-right m-2"
+                    id="resetPage" type="button">
+                Reset
             </button>
         </div>
     </div>
@@ -120,46 +131,86 @@
 
 
             function resetPage() {
+                $("#submitLinks").removeClass("d-none");
+                $("#updateLinks").addClass("d-none");
                 $("#templateName").val("");
                 $("#dashboardLink").val("");
                 $("#active").prop("checked", false);
+                basicTableRows();
             }
 
+            $(document).on("click", ".editlinktemplate", function () {
+
+                $("#submitLinks").addClass("d-none");
+                $("#updateLinks").removeClass("d-none");
+                
+                $("#id").val($(this).data("id"));
+                $("#dashboardLink").val($(this).data("position"));
+                $("#templateName").val($(this).data("templatename"));
+                $("#active").prop('checked',$(this).data("active"));
+                var linknames = $(this).data("linknames").split("#");
+                var links = $(this).data("links").split("#");
 
 
+                $('#tbody tr').remove();
+
+                for (var i = 0; i < linknames.length; i++) {
+                    $('#tbody').append(`<tr id="R${++rowIdx}">
+                                  <td class="row-index text-center">
+                                  <input type='text' class='w-100 form-control linkname tlinput' value='${linknames[i]}' id='t1${rowIdx}' >
+                                  </td>
+                                  <td class="row-index text-center">
+                                          <input type='text' class='w-100 form-control linkvalue tvinput' value='${links[i]}' id='t2${rowIdx}' >
+                                  </td>
+                                  <td class="text-center">
+                                  <button class="btn remove "
+                                  type="button"> <span class="material-icons">delete</span></button>
+                                  </td>
+                                  </tr>`);
+                }
+
+
+
+
+
+
+
+            });
+
+            ///add basic rows to table
             function basicTableRows() {
                 $('#tbody tr').remove();
 
                 $('#tbody').append(`<tr id="R${++rowIdx}">
-                                                                                      <td class="row-index text-center name" width = "400" >
-                                                                                <input type='text' class='w-100 form-control linkname' id='t10' >
-                                                                                    </td>
-                                                                                    <td class="row-index text-center value" width = "600" >
-                                                                                        <input type='text' class='w-100 form-control linkvalue' id='t20' >
-                                                                                            </td>
-                                                                                            <td class="text-center" width="100" height = "60" >
-                                                                                                </td>`);
+                                             <td class="row-index text-center name" width = "400" >
+                                       <input type='text' class='w-100 form-control linkname' id='t10' >
+                                           </td>
+                                           <td class="row-index text-center value" width = "600" >
+                                               <input type='text' class='w-100 form-control linkvalue' id='t20' >
+                                                   </td>
+                                                   <td class="text-center" width="100" height = "60" >
+                                                       </td>`);
 
             }
 
-            // Denotes total number of rows
+            // total number of rows
             var rowIdx = 0;
 
             // jQuery button click event to add a row
             $('#addBtn').on('click', function () {
                 // Adding a row inside the tbody.
                 $('#tbody').append(`<tr id="R${++rowIdx}">
-                                                                     <td class="row-index text-center">
-                                                                     <input type='text' class='w-100 form-control linkname tlinput' id='t1${rowIdx}' >
-                                                                     </td>
-                                                                     <td class="row-index text-center">
-                                                                     <input type='text' class='w-100 form-control linkvalue tvinput' id='t2${rowIdx}' >
-                                                                     </td>
-                                                                     <td class="text-center">
-                                                                     <button class="btn remove "
-                                                                     type="button"> <span class="material-icons">delete</span></button>
-                                                                     </td>
-                                                                     </tr>`);
+                          <td class="row-index text-center">
+                          <input type='text' class='w-100 form-control linkname tlinput' id='t1${rowIdx}' >
+                          </td>
+                          <td class="row-index text-center">
+                          <input type='text' class='w-100 form-control linkvalue tvinput' id='t2${rowIdx}' >
+                          </td>
+                          <td class="text-center">
+                          <button class="btn remove "
+                          type="button"> <span class="material-icons">delete</span></button>
+                          </td>
+                          </tr>`);
 
             });
 
@@ -198,6 +249,9 @@
                 rowIdx--;
             });
 
+            $("#resetPage").click(function (e) {
+                resetPage();
+            });
             $("#submitLinks").click(function (e) {
                 e.preventDefault();
 
@@ -296,14 +350,15 @@
                                     if (d)
                                         checked = "checked";
 
-                                    return '<input type="checkbox" class="massupdatecheck" data-id="' + r["id"] + '" ' + checked + '/>';
+                                    return '<input type="checkbox" class="massupdatecheck" data-id="' + r["id"] + '"  ' + checked + '/>';
                                 }
                             },
                             { data: "templateName" },
                             { data: "position" },
                             {
                                 data: "", render: function (d, t, r) {
-                                    return '<a class="editlinktemplate float-right" data-id="' + r["id"] + '"><i class="material-icons">edit</i></a>';
+                                    return '<a class="editlinktemplate float-right" data-id="' + r["id"] + '" data-links="' + r["link"] + '" data-linkNames="' + r["linksName"] + '"'+
+                                        'data-templatename="' + r["templateName"] + '"  data-position="' + r["position"] + '" data-active="' + r["active"] + '"><i class="material-icons">edit</i></a>';
                                 }
                             },
                         ]
