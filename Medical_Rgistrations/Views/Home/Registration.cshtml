@@ -12,7 +12,7 @@
         <div class="row py-3">
             <div class="col-12 text-center">
                 <h1 class="display-3 text-white animated zoomIn">Registration</h1>
-                <a asp-controller="Home" asp-action="Index" class="h4 text-white">Home</a>
+                <a  asp-controller="Home" asp-action="Index" class="h4 text-white">Home</a>
                 <i class="far fa-circle text-white px-2"></i>
                 <a href="#" class="h4 text-white">
                     New Application
@@ -183,14 +183,6 @@
 }
 @section Scripts{
 
-    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
-    <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
-
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
-    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
-    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
-    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
-
     <script>
         $(document).ready(function () {
 
@@ -268,7 +260,13 @@
                 <button type="button" class="btn-close" id="btnClose" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body" style="">
-                @Html.Raw(Model.HtmlContent.HtmlData)
+                <p>•  Places will be allocated on a first come first serve basis as seats are limited.</p>
+                <p>•  Registration continues till all seats are filled.</p>
+                <p>•  Full payment is to be made at the time of registration and fee will be returned if you do not get a place on the course.</p>
+                <p>•  Written cancellations received before 1st September(example date ) will be given a refund after 20% reduction towards service charges.</p>
+                <p>•  Cancellations after ------------- attract no refund.</p>
+                <p>•  It is not possible to channel the paid fees for the next course as the fee structure may change.</p>
+                <p>•  In exceptional circumstances, it may be necessary to cancel the course at short notice and full refund of the course fee would be made to the candidates.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" id="readAllTerms" data-bs-dismiss="modal">Okay</button>

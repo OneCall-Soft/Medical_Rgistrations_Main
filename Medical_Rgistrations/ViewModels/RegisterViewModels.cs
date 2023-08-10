@@ -50,7 +50,6 @@ namespace Medical_Rgistrations.ViewModels
         [Required(ErrorMessage = "Year is required")]
         public string Year { get; set; }
         [Required(ErrorMessage = "Please read terms and conditions")]
-        [Display(Name ="Read Tearms & Condition")]
         public bool ReadTermsCondition { get; set; }
         [Required(ErrorMessage = "Complition date is required")]
         [DataType(DataType.Date)]
@@ -82,7 +81,6 @@ namespace Medical_Rgistrations.ViewModels
         public List<Genders>? GenderList { get; set; }
         public List<Qualification>? QualificationList { get; set; }
         public IEnumerable<string>? allYears { get; set; }
-        public MyHtmlContent HtmlContent { get; set; }
 
 
     }
