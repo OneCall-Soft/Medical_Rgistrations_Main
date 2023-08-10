@@ -70,6 +70,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Remove="ViewModels\DashboardLinkView.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <Content Remove="Areas\Administrator\Views\Admin\GalaryMaster.cshtml" />
     <Content Remove="Views\Shared\_Layout1.cshtml" />
   </ItemGroup>

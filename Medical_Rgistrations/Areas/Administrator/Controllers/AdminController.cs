@@ -4,14 +4,18 @@ using Medical_Rgistrations.ControllerBase;
 using Medical_Rgistrations.RestSharpContext;
 using Medical_Rgistrations.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using RestSharp;
 using System.Buffers.Text;
+using System.Collections;
 using System.Diagnostics;
 using System.Linq.Expressions;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text;
+using static Medical_Rgistrations.ViewModels.RegisterVM;
 using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace Medical_Rgistrations.Areas.Admin.Controllers
@@ -33,13 +37,15 @@ namespace Medical_Rgistrations.Areas.Admin.Controllers
         }
 
 
-        [Route("MyDashboards")]
-        public async Task<ApiResponse> GetDashboardTable()
+
+        //public async Task<ApiResponse> GetDashboardTable(string keyword="",int pageNumber=1,int pageSize=0)
+        public async Task<JsonResult> GetDashboardTable()
         {
+            IEnumerable res = null;
             apiResponse = new ApiResponse();
             try
             {
-
+                var register = new List<RegisterVM>();
                 RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
 
                 restsharpClient.SetBasicAuthenticator(api_username, api_password);
@@ -51,51 +57,31 @@ namespace Medical_Rgistrations.Areas.Admin.Controllers
                 if (response.IsSuccessStatusCode)
                 {
                     apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
-
-                    return apiResponse;
+                    res = JsonConvert.DeserializeObject<IEnumerable<RegisterVM>>(apiResponse.Data);
+                    //if (!string.IsNullOrEmpty(keyword))
+                    //{
+                    //    res = res.Where(x => x.Name.Contains(keyword));
+                    //}
+                    //IEnumerable objects = null;
+                    //if (pageNumber > 0 && pageSize > 0)
+                    //{
+                    //    objects = res.Skip((1 - 1) * pageSize).Take(pageSize).ToList();
+                    //}
+                    //else
+                    //{
+                    //    objects = res.ToList();
+                    //}
+                    //apiResponse.Data = JsonConvert.SerializeObject(objects);
+                    return Json(apiResponse.Data);
                 }
             }
             catch (Exception e)
             {
                 throw e;
             }
-            return apiResponse;
+            return Json(apiResponse.Data);
         }
 
-        [Route("GetAllLinkList")]
-        public async Task<JsonResult> GetLinkList()
-        {
-            apiResponse = new ApiResponse();
-            var dashboardLinkList = new List<DashboardLinks>();
-            try
-            {
-
-                RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
-
-                restsharpClient.SetBasicAuthenticator(api_username, api_password);
-
-                var restClient = await restsharpClient.GetClientInstance("/Template/GetLinkTemplates/na");
-
-                var response = await restClient.PostAsync(restsharpClient._request);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
-
-                    dashboardLinkList = JsonConvert.DeserializeObject<List<DashboardLinks>>(apiResponse.Data);
-                    return Json(dashboardLinkList);
-                }
-            }
-            catch (Exception e)
-            {
-                throw e;
-            }
-            return Json(dashboardLinkList );
-        }
-
-
-        [Route("Admin-Dashboard")]
-        [HttpGet]
         public IActionResult Dashboard()
         {
             IEnumerable<RegisterViewModels> model = new List<RegisterViewModels>();
@@ -112,7 +98,7 @@ namespace Medical_Rgistrations.Areas.Admin.Controllers
         }
 
 
-        [Route("Admin-Contact")]
+        [Route("Admin-DS-Contact")]
         [HttpGet]
         public async Task<IActionResult> ContactMaster()
         {
@@ -128,7 +114,7 @@ namespace Medical_Rgistrations.Areas.Admin.Controllers
             }
             return View();
         }
-        [Route("Admin-About")]
+        [Route("Admin-DS-About")]
         [HttpGet]
         public async Task<IActionResult> AboutMaster()
         {
@@ -146,7 +132,7 @@ namespace Medical_Rgistrations.Areas.Admin.Controllers
             return View();
         }
 
-        [Route("Admin-Course")]
+        [Route("Admin-DS-Course")]
         [HttpGet]
         public async Task<IActionResult> CourseMaster()
         {
@@ -163,62 +149,6 @@ namespace Medical_Rgistrations.Areas.Admin.Controllers
             return View();
         }
 
-        [Route("Admin-Links")]
-        [HttpGet]
-        public async Task<IActionResult> LinkMaster()
-        {
-            try
-            {
-                ViewBag.message = Message;
-
-            }
-            catch (Exception)
-            {
-                throw;
-            }
-            return View();
-        }
-
-        [Route("Admin-SetLinks")]
-        [HttpPost]
-        public async Task<ApiResponse> AddLinks(DashboardLinks links)
-        {
-            apiResponse = new ApiResponse();
-            try
-            {
-
-                RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
-
-                restsharpClient.SetBasicAuthenticator(api_username, api_password);
-
-                var restClient = await restsharpClient.GetClientInstance("/Template/SetLinkTemplate");
-
-                restsharpClient._request.AddJsonBody(JsonConvert.SerializeObject(links));
-
-                var response = await restClient.PostAsync(restsharpClient._request);
-
-                if (response.IsSuccessStatusCode)
-                {
-
-                    if (response.StatusCode == System.Net.HttpStatusCode.NoContent)
-                    {
-                        apiResponse = new ApiResponse { Success = true, Message = $"{links.Position} Link have been saved." };
-
-                    }
-                    else if (response.StatusCode == System.Net.HttpStatusCode.OK)
-                    {
-                        apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
-                    }
-                }
-
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
-            return apiResponse;
-        }
-        [Route("Admin-Template")]
         [HttpGet]
         public async Task<IActionResult> Template()
         {
@@ -395,7 +325,6 @@ namespace Medical_Rgistrations.Areas.Admin.Controllers
         /// get all contact templates
         /// </summary>
         /// <returns></returns>
-        [Route("Admin-PopulateTemplate")]
         public async Task<ApiResponse> PopulateTemplate(string pageName)
         {
             var templateUrl = "/Template/GetTemplates?page=" + pageName;
