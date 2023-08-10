@@ -2,74 +2,102 @@
     ViewBag.Title = "Dashboard Link";
 }
 
+<div class="card card-form w-100">
+    <div class="card-form__body p-3">
+        <div class="row no-gutters">
+            <div class="col-6 p-3">
+                <label for="dashboardLink" class="form-label h6">Position</label>
+                <select class="form-control" id="dashboardLink">
+                    <option value="">Dashboard Link Position</option>
+                    <option value="download">Download Link</option>
+                    <option value="notification">Notofication Link</option>
+                    <option value="quicklink">Quick Link</option>
+                    <option value="importantlink">Important Link</option>
+                </select>
 
-<div class="row">
-    <div class="col-6 py-3">
-        <label for="dashboardLink" class="form-label h6">Position</label>
-        <select class="form-control" id="dashboardLink">
-            <option value="">Dashboard Link Position</option>
-            <option value="download">Download</option>
-            <option value="notification">Notofication</option>
-            <option value="footer1">Footer 1</option>
-            <option value="footer2">Footer 2</option>
-        </select>
+            </div>
+            <div class="col-6 p-3">
+                <label for="templateName" class="form-label h6">Template Name</label>
+                <input type="text" id="templateName" class="form-control" />
+            </div>
+            <div class="col-md-12">
+                <div class="checkbox-inline pl-3">
+                    <div class="form-check ">
+                        <label class="checkbox-inline">
+                            <input class="form-check-input" type="checkbox" id="active"> Active
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
 
+        <div class="table-responsive">
+            <button class="btn btn-md btn-primary float-right m-2"
+                    id="addBtn" type="button">
+                <span class="material-icons">add</span>
+            </button>
+            <table class="table table-bordered">
+                <thead>
+                    <tr>
+                        <th class="text-center text-center fs-2 text-dark">Link Name</th>
+                        <th class="text-center text-center fs-2 text-dark">Link Value</th>
+                        <th class="text-center"></th>
+                    </tr>
+                </thead>
+                <tbody id="tbody">
+                </tbody>
+            </table>
+
+
+            <button class="btn btn-md btn-primary float-right m-2"
+                    id="submitLinks" type="button">
+                Submit
+            </button>
+        </div>
     </div>
-    <div class="col-2 py-3">
-        <label for="templateName" class="form-label h6">Template Name</label>
-        <input type="text" id="templateName" class="form-control" />
-    </div>
-    <div class="col-md-12">
-        <div class="checkbox-inline pl-3">
-            <div class="form-check ">
-                <label class="checkbox-inline">
-                    <input class="form-check-input" type="checkbox" id="active"> Active
-                </label>
+</div>
+
+
+<div class="w-100" id="daboutList">
+    <div class="card card-form w-100">
+        <div class="row no-gutters">
+            <div class="col-lg-12 card-form__body">
+                <div class="table-responsive p-4 ">
+                    <table class="table mb-0 thead-border-top-0 mt-4 w-100" id="tlinklist">
+                        <thead>
+                            <tr>
+                                <th class="w-25">Active</th>
+                                <th class="">Template</th>
+                                <th class="">Position</th>
+                                <th class="w-25"></th>
+                            </tr>
+                        </thead>
+                        <tbody class="list">
+                        </tbody>
+                    </table>
+                </div>
             </div>
         </div>
     </div>
 </div>
 
-<div class="table-responsive">
-    <button class="btn btn-md btn-primary float-right m-2"
-            id="addBtn" type="button">
-        <span class="material-icons">add</span>
-    </button>
-    <table class="table table-bordered">
-        <thead>
-            <tr>
-                <th class="text-center text-center fs-2 text-dark">Link Name</th>
-                <th class="text-center text-center fs-2 text-dark">Link Value</th>
-                <th class="text-center"></th>
-            </tr>
-        </thead>
-        <tbody id="tbody">
-            <tr id="r0">
-                <td class="row-index text-center name">
-                    <input type='text' class='w-100 form-control linkname ' id='t10'>
-                </td>
-                <td class="row-index text-center value">
-                    <input type='text' class='w-100 form-control linkvalue' id='t20'>
-                </td>
-                <td class="text-center" height="50">
-                </td>
-            </tr>
-        </tbody>
-    </table>
-    <button class="btn btn-md btn-primary float-right m-2"
-            id="submitLinks" type="button">
-        Submit
-    </button>
+<button id="btnalert" type="button"
+        class="btn btn-success d-none"
+        data-toggle="toastr"
+        data-toastr-type="success"
+        data-toastr-title="Message"
+        data-toastr-message="links are submitted succesfully.">
+    alert
+</button>
+<button type="button"
+        class="btn btn-warning d-none alertwarning"
+        data-toggle="toastr"
+        data-toastr-type="warning"
+        data-toastr-title="Heads up!"
+        data-toastr-message=".">
+    warning alert
+</button>
 
-    <button id="btnalert" type="button"
-            class="btn btn-success d-none"
-            data-toggle="toastr"
-            data-toastr-type="success"
-            data-toastr-title="Message"
-            data-toastr-message="links are submitted succesfully.">
-        alert
-    </button>
-</div>
 
 @section Styles{
     <link href="~/assets/vendor/toastr.min.css" rel="stylesheet" />
@@ -79,31 +107,62 @@
     <script src="~/assets/vendor/toastr.min.js"></script>
     <script src="~/assets/js/toastr.js"></script>
 
+    <link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" />
+    <link href="~/lib/datatables/css/jquery.datatables.css" rel="stylesheet" />
+    <script src="~/lib/datatables/js/jquery.datatables.js"></script>
+    <script src="~/lib/datatables/js/jquery.datatables.min.js"></script>
+
     <script>
         $(document).ready(function () {
 
+            loadDTable();
+            basicTableRows();
+
+
+            function resetPage() {
+                $("#templateName").val("");
+                $("#dashboardLink").val("");
+                $("#active").prop("checked", false);
+            }
+
+
+
+            function basicTableRows() {
+                $('#tbody tr').remove();
+
+                $('#tbody').append(`<tr id="R${++rowIdx}">
+                                                                                      <td class="row-index text-center name" width = "400" >
+                                                                                <input type='text' class='w-100 form-control linkname' id='t10' >
+                                                                                    </td>
+                                                                                    <td class="row-index text-center value" width = "600" >
+                                                                                        <input type='text' class='w-100 form-control linkvalue' id='t20' >
+                                                                                            </td>
+                                                                                            <td class="text-center" width="100" height = "60" >
+                                                                                                </td>`);
+
+            }
+
             // Denotes total number of rows
-            var rowIdx = 1;
+            var rowIdx = 0;
 
             // jQuery button click event to add a row
             $('#addBtn').on('click', function () {
-
-
                 // Adding a row inside the tbody.
                 $('#tbody').append(`<tr id="R${++rowIdx}">
-                          <td class="row-index text-center">
-                          <input type='text' class='w-100 form-control linkname tlinput' id='t1${rowIdx}' >
-                          </td>
-                          <td class="row-index text-center">
-                          <input type='text' class='w-100 form-control linkvalue tvinput' id='t2${rowIdx}' >
-                          </td>
-                          <td class="text-center">
-                          <button class="btn btn-danger remove "
-                          type="button"> <span class="material-icons">delete</span></button>
-                          </td>
-                          </tr>`);
+                                                                     <td class="row-index text-center">
+                                                                     <input type='text' class='w-100 form-control linkname tlinput' id='t1${rowIdx}' >
+                                                                     </td>
+                                                                     <td class="row-index text-center">
+                                                                     <input type='text' class='w-100 form-control linkvalue tvinput' id='t2${rowIdx}' >
+                                                                     </td>
+                                                                     <td class="text-center">
+                                                                     <button class="btn remove "
+                                                                     type="button"> <span class="material-icons">delete</span></button>
+                                                                     </td>
+                                                                     </tr>`);
 
             });
+
 
             // jQuery button click event to remove a row.
             $('#tbody').on('click', '.remove', function () {
@@ -139,7 +198,6 @@
                 rowIdx--;
             });
 
-
             $("#submitLinks").click(function (e) {
                 e.preventDefault();
 
@@ -170,6 +228,23 @@
                 var linkPosition = $("#dashboardLink").val();
                 var active = $("#active").prop("checked");
 
+                if (linkPosition === "" || templateName == undefined) {
+                    $(".alertwarning").data("toastr-message", "Please select dashboard link position.").trigger("click");
+                    $("#dashboardLink").focus();
+                    return;
+
+                }
+
+                if (templateName === "" || templateName == undefined) {
+                    $(".alertwarning").data("toastr-message", "Please enter templaet name.").trigger("click");
+                    $("#templateName").focus();
+                    return;
+
+                }
+
+
+
+
                 var requestObject = {
                     "Position": linkPosition,
                     "TemplateName": templateName,
@@ -192,7 +267,9 @@
                     success: function (response) {
 
                         if (response.success) {
-                           // alert(response.message);
+                            // alert(response.message);
+                            resetPage();
+                            basicTableRows();
                             $("#btnalert").trigger("click");
                         }
                     },
@@ -200,6 +277,41 @@
                 });
 
             });
+
+            function loadDTable() {
+                $.ajax({
+                    url: '@Url.Action("GetLinkList","Admin")',
+                    dataSrc: "",
+                    success: function (data) {
+
+                    }
+                }).done(function (data) {
+                    $("#tlinklist").DataTable({
+                        aaData: data,
+                        columns: [
+                            {
+                                data: "active", render: function (d, t, r) {
+                                    var checked = "";
+
+                                    if (d)
+                                        checked = "checked";
+
+                                    return '<input type="checkbox" class="massupdatecheck" data-id="' + r["id"] + '" ' + checked + '/>';
+                                }
+                            },
+                            { data: "templateName" },
+                            { data: "position" },
+                            {
+                                data: "", render: function (d, t, r) {
+                                    return '<a class="editlinktemplate float-right" data-id="' + r["id"] + '"><i class="material-icons">edit</i></a>';
+                                }
+                            },
+                        ]
+
+                    });
+                });
+            }
+
 
         });
     </script>

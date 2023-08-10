@@ -5,6 +5,7 @@ using Medical_Rgistrations.ControllerBase;
 using Medical_Rgistrations.RestSharpContext;
 using Medical_Rgistrations.ViewModels;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.AspNetCore.Mvc.RazorPages;
 using Newtonsoft.Json;
 using RestSharp;
 using System.ComponentModel.DataAnnotations;
@@ -95,8 +96,6 @@ namespace Medical_Rgistrations.Controllers
                         {
                             model.ImportentNotification = dashboardLinks.NotificationLink;
                             model.DownloadLinks = dashboardLinks.DownloadLink;
-                            model.Footer1 = dashboardLinks.FooterLink1;
-                            model.Footer2 = dashboardLinks.FooterLink2;
                         }
                     }
 
@@ -155,6 +154,30 @@ namespace Medical_Rgistrations.Controllers
                 await Qualifications(model);
                 model.allYears = AllYears();
 
+                var templateUrl = "/Template/GetActiveTemplate?pageName=tnc";
+
+                apiResponse = new ApiResponse();
+                List<Faculty> faculties = new List<Faculty>();
+
+
+                RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
+
+                restsharpClient.SetBasicAuthenticator(api_username, api_password);
+
+                var restClient = await restsharpClient.GetClientInstance(templateUrl);
+
+                var response = await restClient.PostAsync(restsharpClient._request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    if (response.StatusCode == System.Net.HttpStatusCode.OK)
+                    {
+                        apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
+                    }
+                    model.HtmlContent = JsonConvert.DeserializeObject<MyHtmlContent>(apiResponse.Data);
+                }
+
+
             }
             catch (Exception e)
             {
@@ -162,6 +185,63 @@ namespace Medical_Rgistrations.Controllers
             }
 
             return View(model);
+        }
+
+        public async Task<MyHtmlContent> GetDashboardTemplate()
+        {
+            var model = new MyHtmlContent();
+
+            RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
+            restsharpClient.SetBasicAuthenticator(api_username, api_password);
+
+            var restClient = await restsharpClient.GetClientInstance("/Template/GetActiveTemplate?pageName=getintouch");
+
+            var response = await restClient.PostAsync(restsharpClient._request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
+
+                if (apiResponse.Success)
+                {
+                    model = JsonConvert.DeserializeObject<MyHtmlContent>(apiResponse.Data);
+                }
+
+            }
+            return model;
+        }
+
+        public async Task<MyHtmlContent> GetDashboardLinks()
+        {
+            var model = new MyHtmlContent();
+
+            RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
+            restsharpClient.SetBasicAuthenticator(api_username, api_password);
+
+            var restClient = await restsharpClient.GetClientInstance("/Template/GetDashboardLinks");
+
+            var response = await restClient.PostAsync(restsharpClient._request);
+
+            if (response.IsSuccessStatusCode)
+            {
+                apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
+
+                if (apiResponse.Success)
+                {
+                    var dashboardLinks = JsonConvert.DeserializeObject<DashboardLinkView>(apiResponse.Data);
+
+                    if (dashboardLinks != null)
+                    {
+                        model.ImportentNotification = dashboardLinks.NotificationLink;
+                        model.DownloadLinks = dashboardLinks.DownloadLink;
+                        model.QuickLinks = dashboardLinks.FooterLink1;
+                        model.ImportantLinks = dashboardLinks.FooterLink2;
+                    }
+                }
+
+            }
+
+            return model;
         }
 
 

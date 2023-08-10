@@ -33,7 +33,7 @@ namespace Medical_Rgistrations.Areas.Admin.Controllers
         }
 
 
-
+        [Route("MyDashboards")]
         public async Task<ApiResponse> GetDashboardTable()
         {
             apiResponse = new ApiResponse();
@@ -62,7 +62,40 @@ namespace Medical_Rgistrations.Areas.Admin.Controllers
             return apiResponse;
         }
 
+        [Route("GetAllLinkList")]
+        public async Task<JsonResult> GetLinkList()
+        {
+            apiResponse = new ApiResponse();
+            var dashboardLinkList = new List<DashboardLinks>();
+            try
+            {
 
+                RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
+
+                restsharpClient.SetBasicAuthenticator(api_username, api_password);
+
+                var restClient = await restsharpClient.GetClientInstance("/Template/GetLinkTemplates/na");
+
+                var response = await restClient.PostAsync(restsharpClient._request);
+
+                if (response.IsSuccessStatusCode)
+                {
+                    apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
+
+                    dashboardLinkList = JsonConvert.DeserializeObject<List<DashboardLinks>>(apiResponse.Data);
+                    return Json(dashboardLinkList);
+                }
+            }
+            catch (Exception e)
+            {
+                throw e;
+            }
+            return Json(dashboardLinkList );
+        }
+
+
+        [Route("Admin-Dashboard")]
+        [HttpGet]
         public IActionResult Dashboard()
         {
             IEnumerable<RegisterViewModels> model = new List<RegisterViewModels>();
@@ -185,6 +218,7 @@ namespace Medical_Rgistrations.Areas.Admin.Controllers
             }
             return apiResponse;
         }
+        [Route("Admin-Template")]
         [HttpGet]
         public async Task<IActionResult> Template()
         {
@@ -361,6 +395,7 @@ namespace Medical_Rgistrations.Areas.Admin.Controllers
         /// get all contact templates
         /// </summary>
         /// <returns></returns>
+        [Route("Admin-PopulateTemplate")]
         public async Task<ApiResponse> PopulateTemplate(string pageName)
         {
             var templateUrl = "/Template/GetTemplates?page=" + pageName;

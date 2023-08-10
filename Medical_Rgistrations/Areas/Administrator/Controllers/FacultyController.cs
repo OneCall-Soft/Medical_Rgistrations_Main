@@ -93,9 +93,9 @@ namespace Medical_Rgistrations.Controllers
 
             return Json(apiResponse);
         }
-              
 
-       
+
+        [Route("Admin-Faculty")]
         [HttpGet]
         public async Task<IActionResult> FacultyMaster()
         {

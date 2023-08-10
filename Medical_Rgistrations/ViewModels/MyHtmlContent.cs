@@ -21,8 +21,8 @@ namespace Medical_Rgistrations.ViewModels
         public Gallary? imgages { get; set; }
         public List<AncorLink>? DownloadLinks { get; set; }
         public List<AncorLink>? ImportentNotification { get; set; }
-        public List<AncorLink>? Footer1 { get; set; }
-        public List<AncorLink>? Footer2 { get; set; }
+        public List<AncorLink>? QuickLinks { get; set; }
+        public List<AncorLink>? ImportantLinks { get; set; }
 
     }
 

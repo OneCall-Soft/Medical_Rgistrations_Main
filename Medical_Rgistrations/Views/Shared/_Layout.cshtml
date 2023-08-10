@@ -1,20 +1,20 @@
 ﻿@inject HomeController _home;
 
+
+@{
+    var data = await _home.GetDashboardLinks();
+    var htmlcontent = await _home.GetDashboardTemplate();
+}
 <!DOCTYPE html>
-<html lang="en"
-      dir="ltr">
-
-
-<!-- Mirrored from demo.frontted.com/flowdash/120/fluid-dashboard.html by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 29 May 2023 06:38:12 GMT -->
+<html lang="en" dir="ltr">
 <head>
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible"
           content="IE=edge">
-    <meta name="viewport"
-          content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>@ViewData["Title"] - Medical College</title>
-    
-   
+
+
     <meta content="width=device-width, initial-scale=1.0" name="viewport">
     <meta content="Free HTML Templates" name="keywords">
     <meta content="Free HTML Templates" name="description">
@@ -75,10 +75,11 @@
                 <a asp-action="Course" asp-controller="Home" class="nav-item nav-link">Course</a>
                 <a asp-action="Faculty" asp-controller="Home" class="nav-item nav-link">Our Team</a>
                 <a asp-action="Faculty" asp-controller="Home" class="nav-item nav-link">Resources</a>
-                <a asp-action="Faculty" asp-controller="Home" class="nav-item nav-link">Testimonial</a>
+                @*<a asp-action="Faculty" asp-controller="Home" class="nav-item nav-link">Testimonial</a>*@
                 <a asp-action="ContactUs" asp-controller="Home" class="nav-item nav-link">Contact us</a>
-                <a asp-action="Faculty" asp-controller="Home" class="nav-item nav-link">Basket</a>
+                @*<a asp-action="Faculty" asp-controller="Home" class="nav-item nav-link">Basket</a>*@
                 <a asp-action="AboutUs" asp-controller="Home" class="nav-item nav-link">About</a>
+                @*<a asp-action="Dashboard" asp-controller="Admin" asp-area="Administrator" class="nav-item nav-link">Admin</a>*@
             </div>
             <!--<button type="button" class="btn text-dark" data-bs-toggle="modal" data-bs-target="#searchModal"><i class="fa fa-search"></i></button>-->
             <a asp-action="Registration" asp-controller="Home" class="btn btn-primary py-2 px-4 ms-3">Apply Now</a>
@@ -102,7 +103,6 @@
         </div>
     </div>
     <!-- Full Screen Search End -->
-
     @RenderBody()
 
     <footer class="clearfix float-left w-100 clearfix">
@@ -114,22 +114,31 @@
                             <h2>Get In Touch</h2>
                             <!--<h5>Dr. Manu Sikarwar</h5>
                             <h6>Project Director</h6>-->
+                            @if (Model != null)
+                            {
+                                @Html.Raw(htmlcontent.HtmlData)
+                            }
 
-                            <p><span class="ti-map-alt footerIcon"></span>Sawai Man Singh Medical, College New Sms Campus Rd JNL Marg Jaipur 302004 </p>
+                            @*<p><span class="ti-map-alt footerIcon"></span>Sawai Man Singh Medical, College New Sms Campus Rd JNL Marg Jaipur 302004 </p>
                             <p>
                                 <span class="ti-headphone footerIcon"></span> 0141-2560291
                             </p>
-                            <p><span class="ti-email footerIcon"></span> director-dst@rajasthan.gov.in</p>
+                            <p><span class="ti-email footerIcon"></span> director-dst@rajasthan.gov.in</p>*@
                         </div>
                     </div>
                     <div class="col-lg-3 col-md-6 col-12">
                         <div class="footerbox">
                             <h2>Quick Links</h2>
                             <ul>
-                                <li><a href="#">Sampark/CM Helpline-181</a></li>
+                                @if(data.QuickLinks.Any())
+                                @foreach (var item in data.QuickLinks)
+                                {
+                                    <li><a target="_blank" href="@item.link">@item.Name</a></li>
+                                }
+                               @* <li><a href="#">Sampark/CM Helpline-181</a></li>
                                 <li><a href="#">Rajasthan State Portal</a></li>
                                 <li><a href="#">DM &amp; HS(Rajswasthya)</a></li>
-                                <li><a href="#">Medical Council of India</a></li>
+                                <li><a href="#">Medical Council of India</a></li>*@
                             </ul>
                         </div>
                     </div>
@@ -137,12 +146,16 @@
                         <div class="footerbox">
                             <h2>Important Links</h2>
                             <ul>
-
-                                <li><a href="#">RMSC</a></li>
+                                @if (data.ImportantLinks.Any())
+                                @foreach (var item in data.ImportantLinks)
+                                {
+                                    <li><a target="_blank" href="@item.link">@item.Name</a></li>
+                                }
+                               @* <li><a href="#">RMSC</a></li>
                                 <li><a href="#">Jan Aadhar Yojna</a></li>
                                 <li><a href="#">Aadhaar</a></li>
                                 <li><a href="#">Rajasthan Tourism</a></li>
-                                <li><a href="#">Essential Drug List - RMSCL</a></li>
+                                <li><a href="#">Essential Drug List - RMSCL</a></li>*@
                             </ul>
                         </div>
                     </div>
@@ -173,6 +186,7 @@
 
     <!-- JavaScript Libraries -->
     <script src="~/user/js/jquery-3.4.1.min.js"></script>
+
     <script src="~/user/js/bootstrap.bundle.min.js"></script>
     <script src="~/user/lib/wow/wow.min.js"></script>
     <script src="~/user/lib/easing/easing.min.js"></script>
@@ -183,6 +197,7 @@
     <script src="~/user/lib/tempusdominus/js/tempusdominus-bootstrap-4.min.js"></script>
     <script src="~/user/lib/twentytwenty/jquery.event.move.js"></script>
     <script src="~/user/lib/twentytwenty/jquery.twentytwenty.js"></script>
+
     <!-- Template Javascript -->
     <script src="~/user/js/main.js"></script>
 
