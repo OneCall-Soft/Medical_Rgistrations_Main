@@ -55,22 +55,32 @@
                 </div>*@
             </div>
             <div class="col-xl-4 col-lg-6 wow slideInUp" data-wow-delay="0.3s" style="visibility: visible; animation-delay: 0.3s; animation-name: slideInUp;">
-                <form>
+                <form asp-action="ContactUs" asp-controller="Home" method="post">
                     <div class="row g-3">
                         <div class="col-12">
-                            <input type="text" class="form-control border-0 bg-light px-4" placeholder="Your Name" style="height: 55px;">
+                            <label asp-for="ContactFormVM.Name" class="form-label h6"></label>
+                            <input asp-for="ContactFormVM.Name" class="form-control border-0 bg-light px-4" style="height: 55px;">
+                            <span class="text-danger" asp-validation-for="ContactFormVM.Name"></span>
                         </div>
                         <div class="col-12">
-                            <input type="tel" class="form-control border-0 bg-light px-4" placeholder="Your PhoneNumber" style="height: 55px;">
+                            <label asp-for="ContactFormVM.PhoneNumber" class="form-label h6"></label>
+                            <input asp-for="ContactFormVM.PhoneNumber" class="form-control border-0 bg-light px-4" style="height: 55px;">
+                            <span class="text-danger" asp-validation-for="ContactFormVM.PhoneNumber"></span>
                         </div>
                         <div class="col-12">
-                            <input type="email" class="form-control border-0 bg-light px-4" placeholder="Your Email" style="height: 55px;">
+                            <label asp-for="ContactFormVM.Email" class="form-label h6"></label>
+                            <input asp-for="ContactFormVM.Email" class="form-control border-0 bg-light px-4" style="height: 55px;">
+                            <span class="text-danger" asp-validation-for="ContactFormVM.Email"></span>
                         </div>
                         <div class="col-12">
-                            <input type="text" class="form-control border-0 bg-light px-4" placeholder="Subject" style="height: 55px;">
+                            <label asp-for="ContactFormVM.Subject" class="form-label h6"></label>
+                            <input asp-for="ContactFormVM.Subject" class="form-control border-0 bg-light px-4" style="height: 55px;">
+                            <span class="text-danger" asp-validation-for="ContactFormVM.Subject"></span>
                         </div>
                         <div class="col-12">
-                            <textarea class="form-control border-0 bg-light px-4 py-3" rows="5" placeholder="Message"></textarea>
+                            <label asp-for="ContactFormVM.Message" class="form-label h6"></label>
+                            <textarea asp-for="ContactFormVM.Message" class="form-control border-0 bg-light px-4 py-3" rows="5"></textarea>
+                            <span class="text-danger" asp-validation-for="ContactFormVM.Message"></span>
                         </div>
                         <div class="col-12">
                             <button class="btn btn-primary w-100 py-3" type="submit">Send Message</button>
@@ -86,7 +96,14 @@
 </div>
 
 
-
+@section Scripts{
+    <script src="~/lib/jquery-validate/jquery.validate.min.js"></script>
+    <script src="~/lib/jquery-validate/jquery.validate.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.min.js"></script>
+    <script src="~/lib/jquery-validation-unobtrusive/jquery.validate.unobtrusive.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.min.js"></script>
+    <script src="~/lib/jquery-ajax-unobtrusive/jquery.unobtrusive-ajax.js"></script>
+}
 @*
 <div class="col-md-12">
     @if (Model != null)

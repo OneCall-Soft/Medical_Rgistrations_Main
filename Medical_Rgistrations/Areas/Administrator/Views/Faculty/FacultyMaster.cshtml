@@ -4,7 +4,16 @@
     ViewBag.Title = "Faculty Template";
 }
 
-<link type="text/css" href="~/assets/vendor/toastr.min.css" rel="stylesheet">
+
+@section Styles{
+    <link type="text/css" href="~/assets/vendor/toastr.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.13.6/css/jquery.dataTables.css" />
+    <link href="https://cdn.datatables.net/1.10.16/css/jquery.dataTables.min.css" rel="stylesheet" />
+    <link href="https://cdn.datatables.net/buttons/1.5.1/css/buttons.dataTables.min.css" rel="stylesheet" />
+    @*<link href="~/lib/datatables/css/datatables.bootstrap.min.css" rel="stylesheet" />*@
+    @*<link href="~/lib/datatables/css/jquery.datatables.min.css" rel="stylesheet" />*@
+}
 
 <form asp-action="FacultyMaster" asp-asp-controller="Admin" method="post" enctype="multipart/form-data">
 
@@ -43,18 +52,57 @@
             </div>
             <div class="col-md-6">
                 <div class="mb-3">
-                    <div class="form-check">
-                        <input class="form-input" type="checkbox" asp-for="Active" />
-                        <label asp-for="Active" class=""></label>
-                        <span class="text-danger" asp-validation-for="Active"></span>
-                    </div>
+                    <label asp-for="FacultyType" class="form-label"></label>
+                    <select class="form-control" name="FacultyType" id="FacultyType">
+                        <option value="uk">UK faculty</option>
+                        <option value="sms">SMS team</option>
+                    </select>
+                    <span class="text-danger" asp-validation-for="FacultyType"></span>
                 </div>
             </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="FacebookLink" class="form-label"></label>
+                    <input class="form-control" asp-for="FacebookLink">
+                    <span class="text-danger" asp-validation-for="FacebookLink"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="InstaLink" class="form-label"></label>
+                    <input class="form-control" asp-for="InstaLink">
+                    <span class="text-danger" asp-validation-for="InstaLink"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="TwitterLink" class="form-label"></label>
+                    <input class="form-control" asp-for="TwitterLink">
+                    <span class="text-danger" asp-validation-for="TwitterLink"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="LinkedInLink" class="form-label"></label>
+                    <input class="form-control" asp-for="LinkedInLink">
+                    <span class="text-danger" asp-validation-for="LinkedInLink"></span>
+                </div>
+            </div>
+            
             <div class="col-md-12">
                 <div class="mb-3">
                     <label asp-for="Description" class="form-label"></label>
                     <textarea class="form-control" asp-for="Description" style="resize:none"></textarea>
                     <span class="text-danger" asp-validation-for="Description"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <div class="form-check">
+                        <input class="form-input" type="checkbox" asp-for="Active" />
+                        <label asp-for="Active" class=""></label>
+                        <span class="text-danger" asp-validation-for="Active"></span>
+                    </div>
                 </div>
             </div>
             <div class="col-md-12">
@@ -75,7 +123,7 @@
      data-toggle="lists"
      data-lists-values='["js-lists-values-employee-name"]'>
 
-    <div class="search-form search-form--light m-3">
+    @*<div class="search-form search-form--light m-3">
         <input type="text"
                class="form-control search"
                placeholder="Search">
@@ -83,7 +131,7 @@
                 type="button">
             <i class="material-icons">search</i>
         </button>
-    </div>
+    </div>*@
    @* <div>
         <button class="btn btn-warning"
                 type="button">
@@ -99,6 +147,7 @@
                 <th style="width: 37px;">Email</th>
                 <th style="width: 80px;">Institute</th>
                 <th style="width: 51px;">Description</th>
+                <th style="width: 51px;">Faculty Type</th>
                 <th style="width: 24px;"></th>
             </tr>
         </thead>
@@ -115,9 +164,69 @@
 </style>
 
 @section Scripts{
+    <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/dataTables.buttons.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/2.5.0/jszip.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/pdfmake.min.js"></script>
+    <script src="https://cdn.rawgit.com/bpampuch/pdfmake/0.1.18/build/vfs_fonts.js"></script>
+    <script src="https://cdn.datatables.net/buttons/1.2.2/js/buttons.html5.min.js"></script>
     <script>
         $(document).ready(function () {
-            UpdateFaculties();
+            //UpdateFaculties();
+            $.ajax({
+                url: '@Url.Action("PopulateFaculties","Faculty")',
+                contentType: 'application/json',
+                success: function (d) {
+                    //alert(d);
+                }
+            }).done(function (data) {
+                //alert(data);
+                var date = new Date();
+                var val = date.getDate() + "/" + (date.getMonth() + 1) + "/" + date.getFullYear();
+                $('#facultyList').dataTable({
+                    "aaData": JSON.parse(data),
+                    "bJQueryUI": true,
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                            extend: 'excel',
+                            filename: 'Dashboard_R-Cat_' + val
+                        },
+                        {
+                            extend: 'pdf',
+                            filename: 'Dashboard_R-Cat_' + val
+                        }
+                    ],
+                    'columnDefs': [{
+                        'targets': 0,
+                        'searchable': false,
+                        'orderable': false,
+                        'className': 'sorting_1 ',
+                        'render': function (data, type, full, meta) {
+                            var checked = "";
+                            if (data) 
+                                checked="checked";
+
+                            return '<input type="checkbox" class="mastUpdateCheck" name="id[]" data-id="' + full['FacultyId'] + '" value="' + data + '" ' + checked + '>';
+                        }
+                    }],
+                    "columns": [
+                        { "data": "Active"},
+                        { "data": "Name" },
+                        { "data": "InstituteName" },
+                        { "data": "Email" },
+                        { "data": "Description" },
+                        { "data": "FacultyType"},
+                        {
+                            "mData": "Name",
+                            "mRender": function (data, type, row) {
+                                var url = '@Url.Action("EditFaculty","Faculty")'+"?id=" + row['FacultyId'];
+                                return "<a href=" + url + "><i class='material-icons'>edit</i></a>";
+                            }
+                        }
+                    ]
+                });
+            });
 
             $(document).on('click', '.mastUpdateCheck', function (e) {
 
@@ -181,65 +290,66 @@
 
             });
 
-            function UpdateFaculties() {
-                $.ajax(
-                    {
-                        type: "GET",
-                        url: '@Url.Action("PopulateFaculties","Faculty")',
-                        dataType: "json",
-                        crossDomain: true,
-                        async: true,
-                        cache: false,
-                        success: function (data) {
+            //function UpdateFaculties() {
+            //    $.ajax(
+            //        {
+            //            type: "GET",
+            //            url: '@Url.Action("PopulateFaculties","Faculty")',
+            //            dataType: "json",
+            //            crossDomain: true,
+            //            async: true,
+            //            cache: false,
+            //            success: function (data) {
 
-                            //$('#tblPendingHrResponse').find($('.trTblPendingHrResponse')).remove();
-                            if (data.success) {
-                                $('#facultyList').find("tbody tr").remove();
-                                var list = JSON.parse(data.data);
+            //                //$('#tblPendingHrResponse').find($('.trTblPendingHrResponse')).remove();
+            //                if (data.success) {
+            //                    $('#facultyList').find("tbody tr").remove();
+            //                    var list = JSON.parse(data.data);
 
-                                $.each(list, function (index, value) {
-                                    random(value, index);
-                                });
-                            }
-                        },
-                        error: function (x, e) {
-                            //alert('There seems to be some problem while fetching records!');
-                        }
+            //                    $.each(list, function (index, value) {
+            //                        random(value, index);
+            //                    });
+            //                }
+            //            },
+            //            error: function (x, e) {
+            //                //alert('There seems to be some problem while fetching records!');
+            //            }
 
-                    }
-                );
-            }
-
-
-            function random(values, index) {
-                var Editurl = '@Url.Action("EditFaculty","Faculty")' + '?id=' + values.FacultyId;
-                //var Deleteurl = '@Url.Action("DeleteFaculty","Faculty")' + '?id=' + values.FacultyId;
-
-                var chk = $('<input type="checkbox" class=" ml-2 mastUpdateCheck" id="check' + index + '" data-id="' + values.FacultyId + '" />');
-
-                chk.attr('checked', values.Active);
-                //chk.prop('checked',values.Active);
-
-                //var actions = $('<a href=' + Editurl + ' data-id=' + values.FacultyId +
-                //    ' class="text-muted" > <i class="material-icons" > edit </i></a>' +
-                //    '<a data-name=' + values.Name + ' id=' + values.FacultyId +
-                //    ' class="text-muted deleteFaculty" > <i class="material-icons" ><span role="button">delete</span> </i></a > ');
-
-                var actions = $('<a href=' + Editurl + ' data-id=' + values.FacultyId +
-                    ' class="text-muted" > <i class="material-icons" > edit </i></a>');
+            //        }
+            //    );
+            //}
 
 
-                var tr = $('<tr class=""></tr>');
-                $('<td></td>').append(chk).appendTo(tr);
-                $('<td></td>').text(values.Name).appendTo(tr);
-                $('<td></td>').text(values.Email).appendTo(tr);
-                $('<td></td>').text(values.InstituteName).appendTo(tr);
-                $('<td></td>').text(values.Description).appendTo(tr);
-                $('<td></td>').append(actions).appendTo(tr);
+            //function random(values, index) {
+            //    var Editurl = '@Url.Action("EditFaculty","Faculty")' + '?id=' + values.FacultyId;
+            //    //var Deleteurl = '@Url.Action("DeleteFaculty","Faculty")' + '?id=' + values.FacultyId;
 
-                $('#facultyList').append(tr);
+            //    var chk = $('<input type="checkbox" class=" ml-2 mastUpdateCheck" id="check' + index + '" data-id="' + values.FacultyId + '" />');
 
-            }
+            //    chk.attr('checked', values.Active);
+            //    //chk.prop('checked',values.Active);
+
+            //    //var actions = $('<a href=' + Editurl + ' data-id=' + values.FacultyId +
+            //    //    ' class="text-muted" > <i class="material-icons" > edit </i></a>' +
+            //    //    '<a data-name=' + values.Name + ' id=' + values.FacultyId +
+            //    //    ' class="text-muted deleteFaculty" > <i class="material-icons" ><span role="button">delete</span> </i></a > ');
+
+            //    var actions = $('<a href=' + Editurl + ' data-id=' + values.FacultyId +
+            //        ' class="text-muted" > <i class="material-icons" > edit </i></a>');
+
+
+            //    var tr = $('<tr class=""></tr>');
+            //    $('<td></td>').append(chk).appendTo(tr);
+            //    $('<td></td>').text(values.Name).appendTo(tr);
+            //    $('<td></td>').text(values.Email).appendTo(tr);
+            //    $('<td></td>').text(values.InstituteName).appendTo(tr);
+            //    $('<td></td>').text(values.Description).appendTo(tr);
+            //    $('<td></td>').text(values.FacultyType == "sms" ? "SMS Team" : values.FacultyType == "uk" ? "UK faculty":"").appendTo(tr);
+            //    $('<td></td>').append(actions).appendTo(tr);
+
+            //    $('#facultyList').append(tr);
+
+            //}
 
         });
     </script>
