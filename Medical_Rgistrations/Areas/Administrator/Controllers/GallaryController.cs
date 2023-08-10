@@ -26,7 +26,6 @@ namespace Medical_Rgistrations.Controllers
             this._Config = config;
         }
 
-        [Route("Admin-Gallery")]
         public async Task<IActionResult> GallaryMaster()
         {
             var model = new GallaryViewModel();
@@ -95,66 +94,7 @@ namespace Medical_Rgistrations.Controllers
 
             return View(gallary);
         }
-
-        [HttpPost]
-        public async Task<IActionResult> EditGallaryMaster(GallaryViewModel gallary)
-        {
-            apiResponse = new ApiResponse();
-            gallary.ImageGroups = await PopulateImageGroup();
-            try
-            {
-                var imageNames = "";
-
-                for (int i = 0; i < gallary.imageFiles.Count; i++)
-                {
-                    //imageNames += Guid.NewGuid()+"_"+gallary.imageFiles[i].FileName;
-                    var img = await Upload(gallary.imageFiles[i], "Image_Gallary");
-
-                    if (i != gallary.imageFiles.Count - 1)
-                    {
-                        imageNames += img + "#";
-                    }
-                    else
-                    {
-                        imageNames += img;
-                    }
-                }
-
-                var galaryToBeUploaded = new Gallary
-                {
-                    fileName = imageNames,
-                    groupName = gallary.groupName,
-                    //groupId = Guid.NewGuid(),
-                    id = Guid.NewGuid(),
-                    active = gallary.active,
-                };
-
-                RestsharpClient restsharpClient = new RestsharpClient(apiBaseUrl);
-
-
-                restsharpClient.SetBasicAuthenticator(api_username, api_password);
-
-                var restClient = await restsharpClient.GetClientInstance("/Gallary/SetImagesByGroup");
-                restsharpClient._request.AddJsonBody(JsonConvert.SerializeObject(galaryToBeUploaded));
-                var response = await restClient.PostAsync(restsharpClient._request);
-
-                if (response.IsSuccessStatusCode)
-                {
-                    apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
-
-                    Message = apiResponse.Message;
-
-                    return RedirectToAction("GallaryMaster", "Gallary");
-                }
-            }
-            catch (Exception e)
-            {
-
-            }
-
-            return View(gallary);
-        }
-
+       
         /// <summary>
         /// Save image files
         /// </summary>
