@@ -29,24 +29,16 @@ namespace Medical_Rgistrations.Controllers
             this._hosting = hostingEnvironment;
             this._Config = config;
         }
-
-
-     
         [HttpPost]
         public async Task<ApiResponse> DeleteFaculty(string id)
         {
             apiResponse = new ApiResponse();
             try
             {
-
                 RestsharpClient restsharpClient = new RestsharpClient(base.apiBaseUrl);
-
                 restsharpClient.SetBasicAuthenticator(api_username, api_password);
-
                 var restClient = await restsharpClient.GetClientInstance("/Faculty/RemoveFacultyById/" + id);
-
                 var response = await restClient.PostAsync(restsharpClient._request);
-
                 if (response.IsSuccessStatusCode)
                 {
                     apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
@@ -56,10 +48,8 @@ namespace Medical_Rgistrations.Controllers
             {
                 apiResponse.Success = false;
                 apiResponse.Message = e.Message;
-
                 return apiResponse;
             }
-
             return apiResponse;
         }
 
@@ -69,15 +59,11 @@ namespace Medical_Rgistrations.Controllers
             apiResponse = new ApiResponse();
             try
             {
-
                 RestsharpClient restsharpClient = new RestsharpClient(base.apiBaseUrl);
-
                 restsharpClient.SetBasicAuthenticator(api_username, api_password);
-
                 var restClient = await restsharpClient.GetClientInstance("/Faculty/MassUpdate");
                 restsharpClient._request.AddJsonBody(Newtonsoft.Json.JsonConvert.SerializeObject(massActive));
                 var response = await restClient.PostAsync(restsharpClient._request);
-
                 if (response.IsSuccessStatusCode)
                 {
                     apiResponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
@@ -87,15 +73,13 @@ namespace Medical_Rgistrations.Controllers
             {
                 apiResponse.Success = false;
                 apiResponse.Message = e.Message;
-
                 return Json(apiResponse);
             }
-
             return Json(apiResponse);
         }
+              
 
-
-        [Route("Admin-Faculty")]
+       
         [HttpGet]
         public async Task<IActionResult> FacultyMaster()
         {
@@ -128,7 +112,12 @@ namespace Medical_Rgistrations.Controllers
                     Email = faculty.Email,
                     ProfileName = filename,
                     InstituteName = faculty.InstituteName,
-                    Active = faculty.Active
+                    Active = faculty.Active,
+                    FacultyType = faculty.FacultyType,
+                    FacebookLink = faculty.FacebookLink,
+                    LinkedInLink = faculty.LinkedInLink,
+                    InstaLink = faculty.InstaLink,
+                    TwitterLink = faculty.TwitterLink,
                 };
 
 
@@ -187,6 +176,11 @@ namespace Medical_Rgistrations.Controllers
                             InstituteName = res.InstituteName,
                             ProfileName = res.ProfileName,
                             Active = res.Active,
+                            FacultyType = res.FacultyType,
+                            InstaLink = res.InstaLink,
+                            FacebookLink = res.FacebookLink,
+                            TwitterLink = res.TwitterLink,
+                            LinkedInLink = res.LinkedInLink,
                         };
 
                         return View(model);
@@ -244,11 +238,8 @@ namespace Medical_Rgistrations.Controllers
             {
                 if (ModelState.IsValid)
                 {
-
                     RestsharpClient restsharpClient = new RestsharpClient(base.apiBaseUrl);
-
                     restsharpClient.SetBasicAuthenticator(api_username, api_password);
-
                     if (faculty.ProfileImg == null)
                     {
                         filename = faculty.ProfileName;
@@ -257,7 +248,6 @@ namespace Medical_Rgistrations.Controllers
                     {
                         filename = await Upload(faculty.ProfileImg);
                     }
-
                     var requestData = new Faculty
                     {
                         FacultyId = faculty.FacultyId,
@@ -267,22 +257,21 @@ namespace Medical_Rgistrations.Controllers
                         ProfileName = filename ?? faculty.ProfileName,
                         InstituteName = faculty.InstituteName,
                         Active = faculty.Active,
+                        FacultyType = faculty.FacultyType,
+                        LinkedInLink = faculty.LinkedInLink,
+                        FacebookLink = faculty.FacebookLink,
+                        TwitterLink = faculty.TwitterLink,
+                        InstaLink  = faculty.InstaLink
                     };
-
-
                     var restClient = await restsharpClient.GetClientInstance("/Faculty/UpdateFaculty");
-
                     restsharpClient._request.AddJsonBody(Newtonsoft.Json.JsonConvert.SerializeObject(requestData));
-
                     var response = await restClient.PostAsync(restsharpClient._request);
-
                     if (response.IsSuccessStatusCode)
                     {
                         var Apiresponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
                         ViewBag.message = Apiresponse.Message;
                         if (Apiresponse != null && Apiresponse.Success)
                         {
-
                             var res = JsonConvert.DeserializeObject<bool>(Apiresponse.Data);
                             return RedirectToAction("FacultyMaster");
                         }
@@ -291,33 +280,23 @@ namespace Medical_Rgistrations.Controllers
             }
             catch (Exception)
             {
-
                 throw;
             }
-
-           
-
             return View("EditFaculty", faculty);
         }
 
 
         public async Task<string> Upload(IFormFile file)
         {
-
             string filename = null;
-
             try
             {
                 filename = Guid.NewGuid() + file.FileName.Trim();
-
-
                 string uploads = Path.Combine(_hosting.WebRootPath, "faculties images");
-
                 if (!Directory.Exists(uploads))
                 {
                     Directory.CreateDirectory(uploads);
                 }
-
                 if (file.Length > 0)
                 {
                     string filePath = Path.Combine(uploads, filename);
@@ -329,38 +308,28 @@ namespace Medical_Rgistrations.Controllers
             }
             catch (Exception)
             {
-
                 throw;
             }
-
-          
             return filename;
         }
 
 
-        public async Task<ApiResponse> PopulateFaculties()
+        public async Task<JsonResult> PopulateFaculties()
         {
             var jsonresponse = new ApiResponse();
             List<Faculty> faculties = new List<Faculty>();
-
             try
             {
                 RestsharpClient restsharpClient = new RestsharpClient(base.apiBaseUrl);
-
                 restsharpClient.SetBasicAuthenticator(api_username, api_password);
-
-                var restClient = await restsharpClient.GetClientInstance("/Faculty/GetFaculties");
-
+                var restClient = await restsharpClient.GetClientInstance("/Faculty/GetFaculties?facultyType="+"");
                 var response = await restClient.GetAsync(restsharpClient._request);
-
                 if (response.IsSuccessStatusCode)
                 {
                     var Apiresponse = JsonConvert.DeserializeObject<ApiResponse>(response.Content);
-
                     if (Apiresponse != null && Apiresponse.Success)
                     {
                         faculties = JsonConvert.DeserializeObject<List<Faculty>>(Apiresponse.Data);
-
                         jsonresponse.Success = true;
                         jsonresponse.Data = Apiresponse.Data;
                     }
@@ -368,12 +337,9 @@ namespace Medical_Rgistrations.Controllers
             }
             catch (Exception)
             {
-
                 throw;
             }
-           
-            return jsonresponse;
+            return Json(jsonresponse.Data);
         }
-      
     }
 }

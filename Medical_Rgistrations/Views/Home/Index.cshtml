@@ -44,29 +44,25 @@
                             {
                                 @Html.Raw(Model.HtmlData)
                             }
+                            @*<div class="carousel-caption d-flex flex-column align-items-center justify-content-center">
+                <div class="p-3" style="max-width: 900px;">
+                <h1 class="display-1 text-white animated zoomIn">PACES AT SMS</h1>
+                <h5 class="text-white mb-1 animated slideInDown">Training Aspiring Doctors for Paces</h5>
+                <h2 class="text-white animated slideInDown">
+                Your Gateway to Success
+                </h2>
+                </div>
+                </div>*@
                         </div>
                     }
                     else
                     {
                         <div class="carousel-item">
-                            @if (!@item.ToLower().Contains(".jpg") && !@item.ToLower().Contains(".png") && !@item.ToLower().Contains(".jpeg"))
-                            {
-                                <video class="w-100" loop autoplay muted>
-                                    <source src="@item" type="video/mp4" />
-                                </video>
-                                //@if (Model != null)
-                                //{
-                                //    @Html.Raw(Model.HtmlData)
-                                //}
-                            }
-                            else
-                            {
-                                <img class="w-100" src="@item" asp-append-version="true" alt="Image">
+                            <img class="w-100" src="@item" asp-append-version="true" alt="Image">
 
-                                @if (Model != null)
-                                {
-                                    @Html.Raw(Model.HtmlData)
-                                }
+                            @if (Model != null)
+                            {
+                                @Html.Raw(Model.HtmlData)
                             }
                         </div>
                     }
@@ -75,12 +71,12 @@
             }
         </div>
         <button class="carousel-control-prev" type="button" data-bs-target="#header-carousel"
-        data-bs-slide="prev">
+                data-bs-slide="prev">
             <span class="carousel-control-prev-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Previous</span>
         </button>
         <button class="carousel-control-next" type="button" data-bs-target="#header-carousel"
-        data-bs-slide="next">
+                data-bs-slide="next">
             <span class="carousel-control-next-icon" aria-hidden="true"></span>
             <span class="visually-hidden">Next</span>
         </button>
@@ -99,12 +95,15 @@
                     <div class="d-flex justify-content-between text-white mb-3">
                         <marquee onMouseOver="this.stop()" onMouseOut="this.start()" scrollamount="4" direction="up">
                             <ul>
-                                @if (Model != null && Model.ImportentNotification.Any())
-                                    @foreach (var item in Model.ImportentNotification)
-                                    {
-                                        <li> <a class="text-white" target="_blank" href="@item.link">@item.Name</a> </li>
-                                    }
-                                
+                                <li>We provide the best preparation for a NHS Post available</li>
+                                <li>We provide the best preparation for a NHS Post available</li>
+                                <li>We provide the best preparation for a NHS Post available</li>
+                                <li>We provide the best preparation for a NHS Post available</li>
+                                <li>We provide the best preparation for a NHS Post available</li>
+                                <li>We provide the best preparation for a NHS Post available</li>
+                                <li>We provide the best preparation for a NHS Post available</li>
+                                <li>We provide the best preparation for a NHS Post available</li>
+                                <li>We provide the best preparation for a NHS Post available</li>
                             </ul>
                         </marquee>
                     </div>
@@ -118,7 +117,7 @@
                         Extra Digital Resources
                     </h3>
 
-                    <a class="btn btn-light" asp-action="Registration" asp-controller="Home">Apply Now</a>
+                    <a class="btn btn-light" href="#">Apply Now</a>
                 </div>
             </div>
             <div class="col-lg-4 wow zoomIn" data-wow-delay="0.6s">
@@ -129,11 +128,13 @@
                     <div class="d-flex justify-content-between text-white mb-3">
                         <marquee onMouseOver="this.stop()" onMouseOut="this.start()" scrollamount="4" direction="up">
                             <ol>
-                                @if (Model != null && Model.DownloadLinks.Any())
-                                    @foreach (var item in Model.DownloadLinks)
-                                    {
-                                        <li> <a class="text-white" target="_blank" href="@item.link">@item.Name</a> </li>
-                                    }
+                                <li><a href="#">NHS Post available best preparation</a></li>
+                                <li><a href="#">NHS Post available best preparation</a></li>
+                                <li><a href="#">NHS Post available best preparation</a></li>
+                                <li><a href="#">NHS Post available best preparation</a></li>
+                                <li><a href="#">NHS Post available best preparation</a></li>
+                                <li><a href="#">NHS Post available best preparation</a></li>
+                                <li><a href="#">NHS Post available best preparation</a></li>
                             </ol>
                         </marquee>
                     </div>

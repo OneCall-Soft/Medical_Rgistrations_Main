@@ -52,6 +52,45 @@
                 </div>
             </div>
             <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="FacultyType" class="form-label"></label>
+                    <select class="form-control" asp-for="FacultyType">
+                        <option value="">Select Faculty Type</option>
+                        <option value="uk">UK faculty</option>
+                        <option value="sms">SMS team</option>
+                    </select>
+                    <span class="text-danger" asp-validation-for="FacultyType"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="FacebookLink" class="form-label"></label>
+                    <input class="form-control" asp-for="FacebookLink">
+                    <span class="text-danger" asp-validation-for="FacebookLink"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="InstaLink" class="form-label"></label>
+                    <input class="form-control" asp-for="InstaLink">
+                    <span class="text-danger" asp-validation-for="InstaLink"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="TwitterLink" class="form-label"></label>
+                    <input class="form-control" asp-for="TwitterLink">
+                    <span class="text-danger" asp-validation-for="TwitterLink"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
+                <div class="mb-3">
+                    <label asp-for="LinkedInLink" class="form-label"></label>
+                    <input class="form-control" asp-for="LinkedInLink">
+                    <span class="text-danger" asp-validation-for="LinkedInLink"></span>
+                </div>
+            </div>
+            <div class="col-md-6">
                 <div class="">
                     <div class="form-check mr-1">
                         <input type="checkbox" asp-for="Active" />
